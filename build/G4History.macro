@@ -52,5 +52,5 @@
 /gps/direction 0 0 -1
 /gps/ene/type Mono
 /gps/ene/mono 0.0253 eV
-/run/beamOn 600
+/run/beamOn 2000
 /vis/scene/notifyHandlers scene-0
