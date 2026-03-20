@@ -3,6 +3,8 @@ CMakeFiles/B1.dir/src/ActionInitialization.cc.o: \
  /usr/include/stdc-predef.h \
  /mnt/hgfs/Shared/B1/include/ActionInitialization.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserActionInitialization.hh \
+ /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
+ /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
  /mnt/hgfs/Shared/B1/include/PrimaryGeneratorAction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleGun.hh \

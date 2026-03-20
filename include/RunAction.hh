@@ -4,22 +4,23 @@
 #include "G4UserRunAction.hh"
 #include "globals.hh"
 #include "G4UnitsTable.hh"
+#include "AnalysisConfig.hh"
 
 class G4Run;
-
 
 class RunAction : public G4UserRunAction
 {
   public:
-    RunAction();
+    RunAction(const AnalysisConfig* config);
     virtual ~RunAction();
-  public:
+
     virtual void BeginOfRunAction(const G4Run*);
-    virtual void   EndOfRunAction(const G4Run*);
+    virtual void EndOfRunAction(const G4Run*);
+
+    const AnalysisConfig* GetAnalysisConfig() const;
+
   private:
-    RunAction *runact; 
+    const AnalysisConfig* fAnalysisConfig;
 };
 
-
 #endif
-

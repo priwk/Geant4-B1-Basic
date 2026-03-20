@@ -64,12 +64,16 @@ int main(int argc, char **argv)
   // 如果编译时启用了多线程，则使用 G4MTRunManager；
   // 否则使用普通的 G4RunManager。
 
+  /*
 #ifdef G4MULTITHREADED
   G4MTRunManager *runManager = new G4MTRunManager;
   runManager->SetNumberOfThreads(1);
 #else
   G4RunManager *runManager = new G4RunManager;
 #endif
+  */
+
+  G4RunManager *runManager = new G4RunManager;
 
   // =========================================================
   // 4. 注册“必须的初始化类”

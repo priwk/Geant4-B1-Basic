@@ -226,6 +226,7 @@ CMakeFiles/B1.dir/B1.cc.o: /mnt/hgfs/Shared/B1/B1.cc \
  /usr/local/geant4.11.4.0/include/Geant4/G4CacheDetails.hh \
  /mnt/hgfs/Shared/B1/include/ActionInitialization.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserActionInitialization.hh \
+ /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4MTRunManager.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4MTBarrier.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4RNGHelper.hh \

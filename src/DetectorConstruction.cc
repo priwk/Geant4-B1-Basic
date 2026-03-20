@@ -100,11 +100,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     // 5. 定义薄膜（Film）
     // =========================
     G4double filmXY = 5 * cm;
-
-    // 你原来写的是 3 * cm
-    // 如果你只是先调通记录功能，可以先保留
-    // 如果你想更接近实际闪烁屏，后续建议改成几百 um 量级
-    G4double filmT = 3 * cm;
+    G4double filmT = 1 * cm;
 
     G4ThreeVector filmPos = G4ThreeVector(0, 0, 0);
 

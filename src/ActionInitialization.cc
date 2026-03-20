@@ -1,4 +1,5 @@
 #include "ActionInitialization.hh"
+#include "AnalysisConfig.hh"
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
@@ -15,7 +16,7 @@ ActionInitialization::~ActionInitialization()
 
 void ActionInitialization::BuildForMaster() const
 {
-  RunAction *runAction = new RunAction();
+  RunAction *runAction = new RunAction(&fAnalysisConfig);
   SetUserAction(runAction);
 }
 
@@ -24,12 +25,12 @@ void ActionInitialization::Build() const
   PrimaryGeneratorAction *primaryGeneratorAction = new PrimaryGeneratorAction();
   SetUserAction(primaryGeneratorAction);
 
-  RunAction *runAction = new RunAction();
+  RunAction *runAction = new RunAction(&fAnalysisConfig);
   SetUserAction(runAction);
 
-  EventAction *eventAction = new EventAction(runAction);
+  EventAction *eventAction = new EventAction(runAction, &fAnalysisConfig);
   SetUserAction(eventAction);
 
-  SteppingAction *steppingAction = new SteppingAction(eventAction);
+  SteppingAction *steppingAction = new SteppingAction(eventAction, &fAnalysisConfig);
   SetUserAction(steppingAction);
 }

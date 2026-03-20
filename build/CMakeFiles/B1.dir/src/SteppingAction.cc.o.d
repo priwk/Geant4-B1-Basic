@@ -232,6 +232,7 @@ CMakeFiles/B1.dir/src/SteppingAction.cc.o: \
  /usr/include/c++/11/bits/std_thread.h /usr/include/c++/11/thread \
  /usr/include/c++/11/bits/this_thread_sleep.h \
  /usr/local/geant4.11.4.0/include/Geant4/G4CacheDetails.hh \
+ /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Step.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ThreeVector.hh \
  /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.h \
