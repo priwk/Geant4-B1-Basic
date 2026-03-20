@@ -1,0 +1,90 @@
+# ---------- vis.mac ----------
+# 用途：
+# 仅负责可视化显示设置
+# 不负责源定义，不负责 /run/beamOn
+#
+# 这样可避免可视化宏与运行宏耦合在一起
+# --------------------------------
+
+
+# ==============================
+# 一、打开可视化窗口
+# ==============================
+
+# 使用 Qt + OpenGL Stored 驱动
+/vis/open OGLSQt 600x600-0+0
+
+# 初始化阶段关闭自动刷新，减少卡顿
+/vis/viewer/set/autoRefresh false
+
+# 可视化输出级别
+/vis/verbose errors
+
+
+# ==============================
+# 二、绘制几何
+# ==============================
+
+# 绘制几何模型
+/vis/drawVolume
+
+# 设置默认观察角度
+/vis/viewer/set/viewpointThetaPhi 90 180
+
+
+# ==============================
+# 三、轨迹显示设置
+# ==============================
+
+# 存储轨迹
+/tracking/storeTrajectory 1
+
+# 将轨迹加入场景
+/vis/scene/add/trajectories smooth
+
+# 按粒子类型着色
+/vis/modeling/trajectories/create/drawByParticleID
+
+# 显示每一步 step point
+/vis/modeling/trajectories/drawByParticleID-0/default/setDrawStepPts true
+
+# step point 大小
+/vis/modeling/trajectories/drawByParticleID-0/default/setStepPtsSize 2
+
+
+# ==============================
+# 四、常见粒子颜色
+# ==============================
+
+/vis/modeling/trajectories/drawByParticleID-0/set neutron green
+/vis/modeling/trajectories/drawByParticleID-0/set alpha red
+/vis/modeling/trajectories/drawByParticleID-0/set e- yellow
+/vis/modeling/trajectories/drawByParticleID-0/set gamma cyan
+
+# 若命名不匹配可注释
+/vis/modeling/trajectories/drawByParticleID-0/set Li7 blue
+
+
+# ==============================
+# 五、场景辅助设置
+# ==============================
+
+# 累积显示事件轨迹
+/vis/scene/endOfEventAction accumulate
+
+# 添加坐标轴
+/vis/scene/add/axes 0 0 0 5 cm
+
+# 设置背景为黑色
+/vis/viewer/set/background black
+
+
+# ==============================
+# 六、恢复刷新
+# ==============================
+
+/vis/viewer/set/autoRefresh true
+/vis/verbose warnings
+/vis/viewer/flush
+
+# ---------- end ----------
