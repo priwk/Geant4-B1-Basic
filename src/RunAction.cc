@@ -1,7 +1,12 @@
 #include "RunAction.hh"
+#include "DetectorConstruction.hh"
 
 #include "G4Run.hh"
+#include "G4RunManager.hh"
+#include "G4SystemOfUnits.hh"
 #include "G4ios.hh"
+
+#include <fstream>
 
 RunAction::RunAction(const AnalysisConfig *config)
     : G4UserRunAction(),
@@ -64,6 +69,62 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
     G4cout << "  transmit_eff = " << transmitEff << G4endl;
     G4cout << "  other_eff    = " << otherEff << G4endl;
     G4cout << "  attenuation  = " << attenuation << G4endl;
+
+    if (fAnalysisConfig && fAnalysisConfig->enableAttenuation)
+    {
+        const DetectorConstruction *detector =
+            static_cast<const DetectorConstruction *>(
+                G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+
+        if (!detector)
+        {
+            G4cerr << "Error: cannot get DetectorConstruction in RunAction." << G4endl;
+            return;
+        }
+
+        G4double thicknessUm = detector->GetFilmThickness() / um;
+
+        // 判断文件是否为空，若为空则先写表头
+        G4bool needHeader = false;
+        {
+            std::ifstream checkFile("capture_summary.csv");
+            if (!checkFile.good() ||
+                checkFile.peek() == std::ifstream::traits_type::eof())
+            {
+                needHeader = true;
+            }
+        }
+
+        std::ofstream outFile("capture_summary.csv", std::ios::app);
+        if (!outFile.is_open())
+        {
+            G4cerr << "Error: cannot open csv" << G4endl;
+            return;
+        }
+
+        if (needHeader)
+        {
+            outFile << "thickness_um,"
+                    << "n_incident,"
+                    << "n_capture,"
+                    << "n_transmit,"
+                    << "capture_eff,"
+                    << "transmit_eff,"
+                    << "other_eff,"
+                    << "attenuation"
+                    << G4endl;
+        }
+
+        outFile << thicknessUm << ","
+                << fNIncident << ","
+                << fNCapture << ","
+                << fNTransmit << ","
+                << captureEff << ","
+                << transmitEff << ","
+                << otherEff << ","
+                << attenuation
+                << G4endl;
+    }
 }
 
 const AnalysisConfig *RunAction::GetAnalysisConfig() const

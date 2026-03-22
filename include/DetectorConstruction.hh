@@ -8,6 +8,7 @@
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
+class G4GenericMessenger;
 
 class DetectorConstruction : public G4VUserDetectorConstruction
 {
@@ -30,6 +31,8 @@ public:
   G4double GetZnSWt() const { return fZnSWt; }
 
 protected:
+  G4GenericMessenger *fMessenger;
+
   G4LogicalVolume *fScoringVolume;
 
   G4double fFilmThickness;

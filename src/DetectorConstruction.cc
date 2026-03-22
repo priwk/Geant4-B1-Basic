@@ -11,8 +11,11 @@
 #include "G4Element.hh"
 #include "G4Isotope.hh"
 
+#include "G4GenericMessenger.hh"
+
 DetectorConstruction::DetectorConstruction()
     : G4VUserDetectorConstruction(),
+      fMessenger(nullptr),
       fScoringVolume(nullptr),
       fFilmThickness(0.0),
       fFilmCenterZ(0.0),
@@ -22,12 +25,25 @@ DetectorConstruction::DetectorConstruction()
       fBNWt(0.0),
       fZnSWt(0.0)
 {
+    // 创建命令解析器
+    fMessenger = new G4GenericMessenger(this, "/det/", "Detector control");
+
+    auto &thickCmd =
+        fMessenger->DeclareMethodWithUnit("setThickness", "um",
+                                          &DetectorConstruction::SetFilmThickness,
+                                          "Set film thickness.");
+    thickCmd.SetParameterName("thickness", false);
+    thickCmd.SetRange("thickness>0.");
+    thickCmd.SetStates(G4State_PreInit, G4State_Idle);
 }
 
+// 析构函数
 DetectorConstruction::~DetectorConstruction()
 {
+    delete fMessenger;
 }
 
+// 构建函数
 G4VPhysicalVolume *DetectorConstruction::Construct()
 {
     G4NistManager *nist = G4NistManager::Instance();
@@ -92,10 +108,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     // =========================
     // 4. 定义混合物：10BN + ZnS
     // =========================
-    fBNWt = 50.0;
-    fZnSWt = 50.0;
+    fBNWt = 28.571;
+    fZnSWt = 71.429;
 
-    G4double densityMix = 3.0 * g / cm3;
+    G4double densityMix = 3.35 * g / cm3; // 混合物密度
     G4Material *matBN_ZnS = new G4Material("B10BN_ZnS_Mix", densityMix, 2);
     matBN_ZnS->AddMaterial(mat10BN, fBNWt * perCent);
     matBN_ZnS->AddMaterial(matZnS, fZnSWt * perCent);

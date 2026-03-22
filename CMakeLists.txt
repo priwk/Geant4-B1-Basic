@@ -47,7 +47,7 @@ set(B1_SCRIPTS
   init_vis.mac
   vis.mac
   run.mac
-  debug.mac
+  scan.mac
   )
 
 foreach(_script ${B1_SCRIPTS})

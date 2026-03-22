@@ -331,4 +331,12 @@ CMakeFiles/B1.dir/src/DetectorConstruction.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/G4Colour.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Material.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Element.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4Isotope.hh
+ /usr/local/geant4.11.4.0/include/Geant4/G4Isotope.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4GenericMessenger.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4AnyMethod.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4AnyType.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UIcommand.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ApplicationState.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UIparameter.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UImessenger.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UIdirectory.hh
