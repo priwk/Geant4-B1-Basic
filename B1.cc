@@ -120,8 +120,6 @@ int main(int argc, char **argv)
   physicsList->SetVerboseLevel(1);
   runManager->SetUserInitialization(physicsList);
 
-  // runManager->SetUserInitialization(new PhysicsList());
-
   // ---------- 4.3 注册用户动作初始化 ----------
   //
   // ActionInitialization 用来集中注册各种用户动作类，例如：

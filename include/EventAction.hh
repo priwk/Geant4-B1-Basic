@@ -25,6 +25,8 @@ public:
   // ---- 沉积能量累计 ----
   void AddEdep(G4double edep);
 
+  void SetSourcePosition(G4double x, G4double y);
+
   // ---- 俘获信息 ----
   void SetCaptureInfo(G4double bnWt,
                       G4double znsWt,
@@ -34,6 +36,9 @@ public:
                       G4double depth);
 
   G4bool HasCapture() const;
+
+  void SetTransmitted();
+  G4bool HasTransmit() const;
 
   // ---- 可选：给 SteppingAction / RunAction 读取 ----
   G4double GetAlphaTrackLen() const;
@@ -49,8 +54,13 @@ private:
   G4double fLi7TrackLen;
   G4double fEdep;
 
+  // 源位置
+  G4double fSourceX;
+  G4double fSourceY;
+
   // 俘获信息
   G4bool fHasCapture;
+  G4bool fHasTransmit;
   G4double fBNWt;
   G4double fZnSWt;
   G4double fCaptureX;

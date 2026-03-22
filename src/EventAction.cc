@@ -21,7 +21,10 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
       fAlphaTrackLen(0.0),
       fLi7TrackLen(0.0),
       fEdep(0.0),
+      fSourceX(0.0),
+      fSourceY(0.0),
       fHasCapture(false),
+      fHasTransmit(false),
       fBNWt(0.0),
       fZnSWt(0.0),
       fCaptureX(0.0),
@@ -38,7 +41,7 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
 
     if (fCSVFile.is_open())
     {
-      fCSVFile << "eventID,bn_wt,zns_wt,x_um,y_um,depth_um,alpha_len_um,li7_len_um,edep_keV"
+      fCSVFile << "eventID,bn_wt,zns_wt,x_um,y_um,corr_x_um,corr_y_um,depth_um,alpha_len_um,li7_len_um,edep_keV"
                << G4endl;
       fCSVInitialized = true;
     }
@@ -58,7 +61,7 @@ EventAction::~EventAction()
   }
 }
 
-// 事件开始时
+// 事件开始时重置
 void EventAction::BeginOfEventAction(const G4Event *)
 {
   fAlphaTrackLen = 0.0;
@@ -66,12 +69,19 @@ void EventAction::BeginOfEventAction(const G4Event *)
   fEdep = 0.0;
 
   fHasCapture = false;
+  fHasTransmit = false;
+
   fBNWt = 0.0;
   fZnSWt = 0.0;
   fCaptureX = 0.0;
   fCaptureY = 0.0;
   fCaptureZ = 0.0;
   fDepth = 0.0;
+
+  if (fRunAction)
+  {
+    fRunAction->CountIncident();
+  }
 }
 
 // 事件结束时
@@ -124,6 +134,9 @@ void EventAction::EndOfEventAction(const G4Event *event)
       fAnalysisConfig->enableReactionPosition &&
       fHasCapture)
   {
+    G4double corrX = fCaptureX - fSourceX;
+    G4double corrY = fCaptureY - fSourceY;
+
     if (fCSVFile.is_open())
     {
       fCSVFile
@@ -132,6 +145,8 @@ void EventAction::EndOfEventAction(const G4Event *event)
           << fZnSWt << ","
           << fCaptureX / um << ","
           << fCaptureY / um << ","
+          << corrX / um << ","
+          << corrY / um << ","
           << fDepth / um << ","
           << fAlphaTrackLen / um << ","
           << fLi7TrackLen / um << ","
@@ -142,6 +157,19 @@ void EventAction::EndOfEventAction(const G4Event *event)
     {
       G4cerr << "Error: capture_events.csv is not open at event "
              << event->GetEventID() << G4endl;
+    }
+  }
+
+  if (fRunAction)
+  {
+    if (fHasCapture)
+    {
+      fRunAction->CountCapture();
+    }
+
+    if (fHasTransmit)
+    {
+      fRunAction->CountTransmit();
     }
   }
 }
@@ -162,6 +190,13 @@ void EventAction::AddLi7TrackLen(G4double len)
 void EventAction::AddEdep(G4double edep)
 {
   fEdep += edep;
+}
+
+// 设置源位置
+void EventAction::SetSourcePosition(G4double x, G4double y)
+{
+  fSourceX = x;
+  fSourceY = y;
 }
 
 // 设置一次俘获信息（同一事件只记录第一次）
@@ -189,6 +224,16 @@ void EventAction::SetCaptureInfo(G4double bnWt,
 G4bool EventAction::HasCapture() const
 {
   return fHasCapture;
+}
+
+void EventAction::SetTransmitted()
+{
+  fHasTransmit = true;
+}
+
+G4bool EventAction::HasTransmit() const
+{
+  return fHasTransmit;
 }
 
 G4double EventAction::GetAlphaTrackLen() const

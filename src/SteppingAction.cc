@@ -91,7 +91,31 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
     }
 
     // ---------------------------------------------------------
-    // 3. 反应位置记录：只记录一次 10B(n,alpha)7Li
+    // 3. 透过判定：主中子从 Film 后表面穿出
+    // ---------------------------------------------------------
+    if (fAnalysisConfig && fAnalysisConfig->enableAttenuation)
+    {
+        if (track->GetParentID() == 0 && particleName == "neutron")
+        {
+            G4VPhysicalVolume *postVolume = postPoint->GetPhysicalVolume();
+            G4String postVolumeName = (postVolume ? postVolume->GetName() : "");
+
+            // 当前这一步从 Film 走到了 Film 外
+            if (postVolumeName != "Film")
+            {
+                // 由于源从 +z 打向 -z，后表面在更小的 z 位置
+                G4double backZ = fDetector->GetFilmFrontZ() - fDetector->GetFilmThickness();
+
+                if (postPoint->GetPosition().z() <= backZ)
+                {
+                    fEventAction->SetTransmitted();
+                }
+            }
+        }
+    }
+
+    // ---------------------------------------------------------
+    // 4. 反应位置记录：只记录一次 10B(n,alpha)7Li
     // ---------------------------------------------------------
     if (!(fAnalysisConfig && fAnalysisConfig->enableReactionPosition))
     {

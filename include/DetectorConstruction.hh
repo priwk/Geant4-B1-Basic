@@ -22,6 +22,9 @@ public:
   G4double GetFilmThickness() const { return fFilmThickness; }
   G4double GetFilmCenterZ() const { return fFilmCenterZ; }
   G4double GetFilmFrontZ() const { return fFilmFrontZ; }
+  G4double GetFilmBackZ() const { return fFilmBackZ; }
+
+  void SetFilmThickness(G4double t) { fFilmThicknessInput = t; }
 
   G4double GetBNWt() const { return fBNWt; }
   G4double GetZnSWt() const { return fZnSWt; }
@@ -32,6 +35,9 @@ protected:
   G4double fFilmThickness;
   G4double fFilmCenterZ;
   G4double fFilmFrontZ;
+  G4double fFilmBackZ;
+
+  G4double fFilmThicknessInput;
 
   G4double fBNWt;
   G4double fZnSWt;

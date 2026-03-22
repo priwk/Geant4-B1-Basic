@@ -17,6 +17,8 @@ DetectorConstruction::DetectorConstruction()
       fFilmThickness(0.0),
       fFilmCenterZ(0.0),
       fFilmFrontZ(0.0),
+      fFilmBackZ(0.0),
+      fFilmThicknessInput(400 * um),
       fBNWt(0.0),
       fZnSWt(0.0)
 {
@@ -64,9 +66,11 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     // 2. 定义 10B 富集元素
     // =========================
     G4Isotope *B10 = new G4Isotope("B10", 5, 10, 10.0129370 * g / mole);
+    G4Isotope *B11 = new G4Isotope("B11", 5, 11, 11.009305 * g / mole);
 
-    G4Element *elB10 = new G4Element("EnrichedBoron10", "B10", 1);
-    elB10->AddIsotope(B10, 100. * perCent);
+    G4Element *elB_enriched = new G4Element("EnrichedBoron", "B", 2);
+    elB_enriched->AddIsotope(B10, 99.17 * perCent);
+    elB_enriched->AddIsotope(B11, 0.83 * perCent);
 
     G4Element *elN = nist->FindOrBuildElement("N");
     G4Element *elZn = nist->FindOrBuildElement("Zn");
@@ -77,7 +81,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     // =========================
     G4double densityBN = 2.1 * g / cm3;
     G4Material *mat10BN = new G4Material("B10N", densityBN, 2);
-    mat10BN->AddElement(elB10, 1);
+    mat10BN->AddElement(elB_enriched, 1);
     mat10BN->AddElement(elN, 1);
 
     G4double densityZnS = 4.09 * g / cm3;
@@ -100,7 +104,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     // 5. 定义薄膜（Film）
     // =========================
     G4double filmXY = 5 * cm;
-    G4double filmT = 1 * cm;
+    G4double filmT = fFilmThicknessInput;
 
     G4ThreeVector filmPos = G4ThreeVector(0, 0, 0);
 
@@ -120,14 +124,15 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     fScoringVolume = logicFilm;
     fFilmThickness = filmT;
     fFilmCenterZ = filmPos.z();
-    fFilmFrontZ = fFilmCenterZ + 0.5 * fFilmThickness;
+    fFilmFrontZ = fFilmCenterZ + 0.5 * fFilmThickness; // +z 面，入射面
+    fFilmBackZ = fFilmCenterZ - 0.5 * fFilmThickness;  // -z 面，出射面
 
     // =========================
     // 6. 可视化属性
     // =========================
     logicWorld->SetVisAttributes(G4VisAttributes::GetInvisible());
 
-    G4VisAttributes *filmVisAtt = new G4VisAttributes(G4Colour(1.0, 1.0, 0.0, 0.5));
+    G4VisAttributes *filmVisAtt = new G4VisAttributes(G4Colour(0.9, 0.9, 0.3, 0.4));
     filmVisAtt->SetForceSolid(true);
     logicFilm->SetVisAttributes(filmVisAtt);
 

@@ -7,20 +7,24 @@
 #include "globals.hh"
 
 class G4Event;
+class EventAction;
 
 class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
 {
 public:
-  PrimaryGeneratorAction();
+  PrimaryGeneratorAction(EventAction *eventAction);
   ~PrimaryGeneratorAction();
 
 public:
+  // 生成粒子事件
   virtual void GeneratePrimaries(G4Event *);
-  // G4ParticleGun *GetParticleGun() { return fParticleGun; };
 
 private:
-  // G4ParticleGun *fParticleGun;
+  // 粒子源
   G4GeneralParticleSource *fParticleGun;
+
+  // 指向 EventAction，用于保存本事件的源位置
+  EventAction *fEventAction;
 };
 
 #endif

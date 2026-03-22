@@ -22,15 +22,17 @@ void ActionInitialization::BuildForMaster() const
 
 void ActionInitialization::Build() const
 {
-  PrimaryGeneratorAction *primaryGeneratorAction = new PrimaryGeneratorAction();
-  SetUserAction(primaryGeneratorAction);
-
   RunAction *runAction = new RunAction(&fAnalysisConfig);
   SetUserAction(runAction);
 
   EventAction *eventAction = new EventAction(runAction, &fAnalysisConfig);
   SetUserAction(eventAction);
 
-  SteppingAction *steppingAction = new SteppingAction(eventAction, &fAnalysisConfig);
+  PrimaryGeneratorAction *primaryGeneratorAction =
+      new PrimaryGeneratorAction(eventAction);
+  SetUserAction(primaryGeneratorAction);
+
+  SteppingAction *steppingAction =
+      new SteppingAction(eventAction, &fAnalysisConfig);
   SetUserAction(steppingAction);
 }

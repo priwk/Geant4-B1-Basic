@@ -362,7 +362,10 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/G4UIparameter.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4GeneralParticleSourceData.hh \
  /usr/local/geant4.11.4.0/include/Geant4/globals.hh \
+ /mnt/hgfs/Shared/B1/include/EventAction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UserEventAction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Event.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryVertex.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTable.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTableIterator.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTable.icc \

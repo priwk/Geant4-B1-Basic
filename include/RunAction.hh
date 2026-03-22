@@ -10,17 +10,29 @@ class G4Run;
 
 class RunAction : public G4UserRunAction
 {
-  public:
-    RunAction(const AnalysisConfig* config);
-    virtual ~RunAction();
+public:
+  RunAction(const AnalysisConfig *config);
+  virtual ~RunAction();
 
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void EndOfRunAction(const G4Run*);
+  virtual void BeginOfRunAction(const G4Run *);
+  virtual void EndOfRunAction(const G4Run *);
 
-    const AnalysisConfig* GetAnalysisConfig() const;
+  const AnalysisConfig *GetAnalysisConfig() const;
 
-  private:
-    const AnalysisConfig* fAnalysisConfig;
+  void CountIncident();
+  void CountCapture();
+  void CountTransmit();
+
+  G4int GetNIncident() const { return fNIncident; }
+  G4int GetNCapture() const { return fNCapture; }
+  G4int GetNTransmit() const { return fNTransmit; }
+
+private:
+  const AnalysisConfig *fAnalysisConfig;
+
+  G4int fNIncident;
+  G4int fNCapture;
+  G4int fNTransmit;
 };
 
 #endif
