@@ -71,6 +71,10 @@ private:
   // 反应位置 CSV
   static std::ofstream fCSVFile;
   static G4bool fCSVInitialized;
+
+  // 能量沉积 CSV
+  static std::ofstream fEdepCSVFile;
+  static G4bool fEdepCSVInitialized;
 };
 
 #endif

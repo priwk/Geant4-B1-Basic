@@ -2,16 +2,22 @@
 
 #include "RunAction.hh"
 #include "AnalysisConfig.hh"
+#include "DetectorConstruction.hh"
 
 #include "G4Event.hh"
+#include "G4Run.hh"
 #include "G4SystemOfUnits.hh"
 #include "G4ios.hh"
+#include "G4RunManager.hh"
 
 #include <iomanip>
 
 // 静态成员定义
 std::ofstream EventAction::fCSVFile;
 G4bool EventAction::fCSVInitialized = false;
+
+std::ofstream EventAction::fEdepCSVFile;
+G4bool EventAction::fEdepCSVInitialized = false;
 
 // 构造函数
 EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
@@ -32,7 +38,7 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
       fCaptureZ(0.0),
       fDepth(0.0)
 {
-  // 只有启用反应位置记录时才初始化 CSV
+  // 反应位置 CSV
   if (fAnalysisConfig &&
       fAnalysisConfig->enableReactionPosition &&
       !fCSVInitialized)
@@ -41,13 +47,31 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
 
     if (fCSVFile.is_open())
     {
-      fCSVFile << "eventID,bn_wt,zns_wt,x_um,y_um,corr_x_um,corr_y_um,depth_um,alpha_len_um,li7_len_um,edep_keV"
+      fCSVFile << "runID,eventID,thickness_um,bn_wt,zns_wt,x_um,y_um,corr_x_um,corr_y_um,depth_um,alpha_len_um,li7_len_um"
                << G4endl;
       fCSVInitialized = true;
     }
     else
     {
       G4cerr << "Error: cannot open capture_events.csv" << G4endl;
+    }
+  }
+
+  // 能量沉积 CSV
+  if (fAnalysisConfig &&
+      fAnalysisConfig->enableEdep &&
+      !fEdepCSVInitialized)
+  {
+    fEdepCSVFile.open("edep_events.csv");
+
+    if (fEdepCSVFile.is_open())
+    {
+      fEdepCSVFile << "runID,eventID,thickness_um,edep_keV" << G4endl;
+      fEdepCSVInitialized = true;
+    }
+    else
+    {
+      G4cerr << "Error: cannot open edep_events.csv" << G4endl;
     }
   }
 }
@@ -58,6 +82,11 @@ EventAction::~EventAction()
   if (fCSVFile.is_open())
   {
     fCSVFile.close();
+  }
+
+  if (fEdepCSVFile.is_open())
+  {
+    fEdepCSVFile.close();
   }
 }
 
@@ -88,6 +117,25 @@ void EventAction::BeginOfEventAction(const G4Event *)
 void EventAction::EndOfEventAction(const G4Event *event)
 {
   G4bool doPrint = false;
+
+  // 获取探测器（厚度）信息
+  const DetectorConstruction *detector =
+      static_cast<const DetectorConstruction *>(
+          G4RunManager::GetRunManager()->GetUserDetectorConstruction());
+
+  G4double thicknessUm = -1.0;
+  if (detector)
+  {
+    thicknessUm = detector->GetFilmThickness() / um;
+  }
+
+  // 获取run信息
+  const G4Run *currentRun = G4RunManager::GetRunManager()->GetCurrentRun();
+  G4int runID = -1;
+  if (currentRun)
+  {
+    runID = currentRun->GetRunID();
+  }
 
   if (fAnalysisConfig && fAnalysisConfig->enableVerboseEventPrint)
   {
@@ -129,7 +177,7 @@ void EventAction::EndOfEventAction(const G4Event *event)
     G4cout << G4endl;
   }
 
-  // 只对“发生俘获的事件”写一行
+  // capture_events.csv
   if (fAnalysisConfig &&
       fAnalysisConfig->enableReactionPosition &&
       fHasCapture)
@@ -140,7 +188,9 @@ void EventAction::EndOfEventAction(const G4Event *event)
     if (fCSVFile.is_open())
     {
       fCSVFile
+          << runID << ","
           << event->GetEventID() << ","
+          << thicknessUm << ","
           << fBNWt << ","
           << fZnSWt << ","
           << fCaptureX / um << ","
@@ -149,13 +199,33 @@ void EventAction::EndOfEventAction(const G4Event *event)
           << corrY / um << ","
           << fDepth / um << ","
           << fAlphaTrackLen / um << ","
-          << fLi7TrackLen / um << ","
-          << fEdep / keV
+          << fLi7TrackLen / um
           << G4endl;
     }
     else
     {
       G4cerr << "Error: capture_events.csv is not open at event "
+             << event->GetEventID() << G4endl;
+    }
+  }
+
+  // edep_events.csv
+  if (fAnalysisConfig &&
+      fAnalysisConfig->enableEdep &&
+      fHasCapture)
+  {
+    if (fEdepCSVFile.is_open())
+    {
+      fEdepCSVFile
+          << runID << ","
+          << event->GetEventID() << ","
+          << thicknessUm << ","
+          << fEdep / keV
+          << G4endl;
+    }
+    else
+    {
+      G4cerr << "Error: edep_events.csv is not open at event "
              << event->GetEventID() << G4endl;
     }
   }

@@ -21,7 +21,7 @@ DetectorConstruction::DetectorConstruction()
       fFilmCenterZ(0.0),
       fFilmFrontZ(0.0),
       fFilmBackZ(0.0),
-      fFilmThicknessInput(400 * um),
+      fFilmThicknessInput(2000 * um),
       fBNWt(0.0),
       fZnSWt(0.0)
 {
