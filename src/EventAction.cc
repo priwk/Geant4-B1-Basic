@@ -13,11 +13,17 @@
 #include <iomanip>
 
 // 静态成员定义
+// 反应位置 CSV
 std::ofstream EventAction::fCSVFile;
 G4bool EventAction::fCSVInitialized = false;
 
+// 能量沉积 CSV
 std::ofstream EventAction::fEdepCSVFile;
 G4bool EventAction::fEdepCSVInitialized = false;
+
+// 发光源项 CSV
+std::ofstream EventAction::fLightCSVFile;
+G4bool EventAction::fLightCSVInitialized = false;
 
 // 构造函数
 EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
@@ -27,6 +33,7 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
       fAlphaTrackLen(0.0),
       fLi7TrackLen(0.0),
       fEdep(0.0),
+      fGeneratedPhotons(0.0),
       fSourceX(0.0),
       fSourceY(0.0),
       fHasCapture(false),
@@ -47,7 +54,7 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
 
     if (fCSVFile.is_open())
     {
-      fCSVFile << "runID,eventID,thickness_um,bn_wt,zns_wt,x_um,y_um,corr_x_um,corr_y_um,depth_um,alpha_len_um,li7_len_um"
+      fCSVFile << "runID,eventID,thickness_um,bn_wt,zns_wt,x_um,y_um,corr_x_um,corr_y_um,depth_um"
                << G4endl;
       fCSVInitialized = true;
     }
@@ -74,6 +81,31 @@ EventAction::EventAction(RunAction *runAction, const AnalysisConfig *config)
       G4cerr << "Error: cannot open edep_events.csv" << G4endl;
     }
   }
+
+  // light_events.csv
+  if (fAnalysisConfig &&
+      fAnalysisConfig->enableLightYield &&
+      !fLightCSVInitialized)
+  {
+    fLightCSVFile.open("light_events.csv");
+
+    if (fLightCSVFile.is_open())
+    {
+      fLightCSVFile
+          << "runID,eventID,thickness_um,"
+          << "edep_keV,light_yield_photons,"
+          << "has_capture,bn_wt,zns_wt,"
+          << "source_x_um,source_y_um,"
+          << "capture_x_um,capture_y_um,depth_um"
+          << G4endl;
+
+      fLightCSVInitialized = true;
+    }
+    else
+    {
+      G4cerr << "Error: cannot open light_events.csv" << G4endl;
+    }
+  }
 }
 
 // 析构函数
@@ -88,6 +120,11 @@ EventAction::~EventAction()
   {
     fEdepCSVFile.close();
   }
+
+  if (fLightCSVFile.is_open())
+  {
+    fLightCSVFile.close();
+  }
 }
 
 // 事件开始时重置
@@ -96,6 +133,7 @@ void EventAction::BeginOfEventAction(const G4Event *)
   fAlphaTrackLen = 0.0;
   fLi7TrackLen = 0.0;
   fEdep = 0.0;
+  fGeneratedPhotons = 0.0;
 
   fHasCapture = false;
   fHasTransmit = false;
@@ -149,6 +187,26 @@ void EventAction::EndOfEventAction(const G4Event *event)
     }
   }
 
+  // 光产额前提是否俘获
+  G4bool countLightThisEvent = true;
+  if (fAnalysisConfig &&
+      fAnalysisConfig->enableLightYield &&
+      fAnalysisConfig->lightOnlyForCaptureEvents)
+  {
+    countLightThisEvent = fHasCapture;
+  }
+
+  fGeneratedPhotons = 0.0; // 没开启 enableLightYield 光产额保持为0
+
+  // 计算光产额
+  if (fAnalysisConfig &&
+      fAnalysisConfig->enableLightYield &&
+      countLightThisEvent)
+  {
+    fGeneratedPhotons =
+        (fEdep / MeV) * fAnalysisConfig->lightYieldPhotonsPerMeV;
+  }
+
   if (doPrint)
   {
     G4cout << "Event " << event->GetEventID();
@@ -163,6 +221,11 @@ void EventAction::EndOfEventAction(const G4Event *event)
     if (fAnalysisConfig->enableEdep)
     {
       G4cout << " | edep = " << fEdep / keV << " keV";
+    }
+
+    if (fAnalysisConfig && fAnalysisConfig->enableLightYield)
+    {
+      G4cout << " | light yield = " << fGeneratedPhotons << " photons";
     }
 
     if (fAnalysisConfig->enableReactionPosition && fHasCapture)
@@ -197,9 +260,7 @@ void EventAction::EndOfEventAction(const G4Event *event)
           << fCaptureY / um << ","
           << corrX / um << ","
           << corrY / um << ","
-          << fDepth / um << ","
-          << fAlphaTrackLen / um << ","
-          << fLi7TrackLen / um
+          << fDepth / um
           << G4endl;
     }
     else
@@ -226,6 +287,48 @@ void EventAction::EndOfEventAction(const G4Event *event)
     else
     {
       G4cerr << "Error: edep_events.csv is not open at event "
+             << event->GetEventID() << G4endl;
+    }
+  }
+
+  // light_events.csv
+  G4bool writeLightRow = false;
+
+  if (fAnalysisConfig && fAnalysisConfig->enableLightYield)
+  {
+    if (fAnalysisConfig->lightOnlyForCaptureEvents)
+    {
+      writeLightRow = fHasCapture;
+    }
+    else
+    {
+      writeLightRow = true;
+    }
+  }
+
+  if (writeLightRow)
+  {
+    if (fLightCSVFile.is_open())
+    {
+      fLightCSVFile
+          << runID << ","
+          << event->GetEventID() << ","
+          << thicknessUm << ","
+          << fEdep / keV << ","
+          << fGeneratedPhotons << ","
+          << (fHasCapture ? 1 : 0) << ","
+          << fBNWt << ","
+          << fZnSWt << ","
+          << fSourceX / um << ","
+          << fSourceY / um << ","
+          << fCaptureX / um << ","
+          << fCaptureY / um << ","
+          << fDepth / um
+          << G4endl;
+    }
+    else
+    {
+      G4cerr << "Error: light_events.csv is not open at event "
              << event->GetEventID() << G4endl;
     }
   }
@@ -319,4 +422,9 @@ G4double EventAction::GetLi7TrackLen() const
 G4double EventAction::GetEdep() const
 {
   return fEdep;
+}
+
+G4double EventAction::GetGeneratedPhotons() const
+{
+  return fGeneratedPhotons;
 }

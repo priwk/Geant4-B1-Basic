@@ -1,1 +1,2 @@
-Geant自用
+Geant4自用项目
+中山大学 - SUN YAT-SEN UNIVERSITY

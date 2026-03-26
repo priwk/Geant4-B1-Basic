@@ -44,6 +44,7 @@ public:
   G4double GetAlphaTrackLen() const;
   G4double GetLi7TrackLen() const;
   G4double GetEdep() const;
+  G4double GetGeneratedPhotons() const;
 
 private:
   RunAction *fRunAction;
@@ -53,6 +54,7 @@ private:
   G4double fAlphaTrackLen;
   G4double fLi7TrackLen;
   G4double fEdep;
+  G4double fGeneratedPhotons;
 
   // 源位置
   G4double fSourceX;
@@ -75,6 +77,10 @@ private:
   // 能量沉积 CSV
   static std::ofstream fEdepCSVFile;
   static G4bool fEdepCSVInitialized;
+
+  // 发光源项 CSV
+  static std::ofstream fLightCSVFile;
+  static G4bool fLightCSVInitialized;
 };
 
 #endif

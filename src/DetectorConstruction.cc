@@ -93,7 +93,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     G4Element *elS = nist->FindOrBuildElement("S");
 
     // =========================
-    // 3. 定义 10BN 和 ZnS
+    // 3. 定义 10BN、ZnS 和 ZnS:Ag
     // =========================
     G4double densityBN = 2.1 * g / cm3;
     G4Material *mat10BN = new G4Material("B10N", densityBN, 2);
@@ -105,16 +105,25 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     matZnS->AddElement(elZn, 1);
     matZnS->AddElement(elS, 1);
 
-    // =========================
-    // 4. 定义混合物：10BN + ZnS
-    // =========================
-    fBNWt = 28.571;
-    fZnSWt = 71.429;
+    // Ag 元素
+    G4Element *elAg = nist->FindOrBuildElement("Ag");
 
-    G4double densityMix = 3.35 * g / cm3; // 混合物密度
+    // ZnS:Ag，按 ZnS 相内掺银 0.1 wt%
+    G4double densityZnSAg = 4.0925 * g / cm3; // 估算值，也可直接继续用 4.09
+    G4Material *matZnSAg = new G4Material("ZnS_Ag", densityZnSAg, 2);
+    matZnSAg->AddMaterial(matZnS, 99.9 * perCent);
+    matZnSAg->AddElement(elAg, 0.1 * perCent);
+
+    // =========================
+    // 4. 定义混合物：10BN + ZnS:Ag
+    // =========================
+    fBNWt = 50.0;
+    fZnSWt = 50.0;
+
+    G4double densityMix = 2.94 * g / cm3; // 按你当前 BN=2.1、ZnS:Ag 估算后的更合理值
     G4Material *matBN_ZnS = new G4Material("B10BN_ZnS_Mix", densityMix, 2);
     matBN_ZnS->AddMaterial(mat10BN, fBNWt * perCent);
-    matBN_ZnS->AddMaterial(matZnS, fZnSWt * perCent);
+    matBN_ZnS->AddMaterial(matZnSAg, fZnSWt * perCent);
 
     // =========================
     // 5. 定义薄膜（Film）

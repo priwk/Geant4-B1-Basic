@@ -24,7 +24,7 @@
 # ==============================
 # 二、设置厚度并重建几何
 # ==============================
-/det/setThickness 100 um
+/det/setThickness 300 um
 /run/reinitializeGeometry
 /run/initialize
 
