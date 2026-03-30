@@ -16,6 +16,8 @@
 #include "G4UIExecutive.hh"  // 交互式 UI 会话（Qt/terminal 等）
 #include "Randomize.hh"      // 随机数引擎相关
 
+#include "G4OpticalPhysics.hh" // 光学物理过程
+
 // 主函数
 
 int main(int argc, char **argv)
@@ -118,6 +120,7 @@ int main(int argc, char **argv)
 
   G4VModularPhysicsList *physicsList = new QGSP_BIC_HP;
   physicsList->SetVerboseLevel(1);
+  physicsList->RegisterPhysics(new G4OpticalPhysics());
   runManager->SetUserInitialization(physicsList);
 
   // ---------- 4.3 注册用户动作初始化 ----------

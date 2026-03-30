@@ -222,6 +222,30 @@ src/ActionInitialization.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/ActionInitialization.cc.s
 .PHONY : src/ActionInitialization.cc.s
 
+src/AnalysisConfig.o: src/AnalysisConfig.cc.o
+.PHONY : src/AnalysisConfig.o
+
+# target to build an object file
+src/AnalysisConfig.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/AnalysisConfig.cc.o
+.PHONY : src/AnalysisConfig.cc.o
+
+src/AnalysisConfig.i: src/AnalysisConfig.cc.i
+.PHONY : src/AnalysisConfig.i
+
+# target to preprocess a source file
+src/AnalysisConfig.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/AnalysisConfig.cc.i
+.PHONY : src/AnalysisConfig.cc.i
+
+src/AnalysisConfig.s: src/AnalysisConfig.cc.s
+.PHONY : src/AnalysisConfig.s
+
+# target to generate assembly for a file
+src/AnalysisConfig.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/AnalysisConfig.cc.s
+.PHONY : src/AnalysisConfig.cc.s
+
 src/DetectorConstruction.o: src/DetectorConstruction.cc.o
 .PHONY : src/DetectorConstruction.o
 
@@ -385,6 +409,9 @@ help:
 	@echo "... src/ActionInitialization.o"
 	@echo "... src/ActionInitialization.i"
 	@echo "... src/ActionInitialization.s"
+	@echo "... src/AnalysisConfig.o"
+	@echo "... src/AnalysisConfig.i"
+	@echo "... src/AnalysisConfig.s"
 	@echo "... src/DetectorConstruction.o"
 	@echo "... src/DetectorConstruction.i"
 	@echo "... src/DetectorConstruction.s"

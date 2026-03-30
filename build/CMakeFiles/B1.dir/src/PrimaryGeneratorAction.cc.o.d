@@ -3,7 +3,7 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: \
  /usr/include/stdc-predef.h \
  /mnt/hgfs/Shared/B1/include/PrimaryGeneratorAction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserPrimaryGeneratorAction.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4ParticleGun.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4GeneralParticleSource.hh \
  /usr/local/geant4.11.4.0/include/Geant4/globals.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ios.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Types.hh \
@@ -211,42 +211,20 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: \
  /usr/include/c++/11/bits/parse_numbers.h \
  /usr/include/c++/11/bits/std_mutex.h \
  /usr/include/c++/11/bits/unique_lock.h \
- /usr/local/geant4.11.4.0/include/Geant4/G4VPrimaryGenerator.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4ThreeVector.hh \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/defs.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.icc \
- /usr/local/geant4.11.4.0/include/Geant4/G4ParticleDefinition.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4PDefManager.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4AutoLock.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4Threading.hh \
- /usr/include/c++/11/condition_variable \
- /usr/include/c++/11/bits/shared_ptr.h \
- /usr/include/c++/11/bits/shared_ptr_base.h \
- /usr/include/c++/11/bits/allocated_ptr.h \
- /usr/include/c++/11/ext/concurrence.h /usr/include/c++/11/future \
- /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
- /usr/include/c++/11/bits/atomic_lockfree_defines.h \
- /usr/include/c++/11/bits/atomic_futex.h \
- /usr/include/c++/11/bits/std_thread.h /usr/include/c++/11/thread \
- /usr/include/c++/11/bits/this_thread_sleep.h \
- /usr/local/geant4.11.4.0/include/Geant4/pwdefs.hh \
- /usr/include/c++/11/stdlib.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Units/PhysicalConstants.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Units/defs.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Units/SystemOfUnits.h \
- /usr/local/geant4.11.4.0/include/Geant4/G4ParticleDefinition.icc \
- /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryVertex.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4Allocator.hh \
- /usr/include/c++/11/cstddef \
- /usr/local/geant4.11.4.0/include/Geant4/G4AllocatorPool.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryParticle.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4ParticleMomentum.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4GeneralParticleSource.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Event.hh \
  /usr/include/c++/11/set /usr/include/c++/11/bits/stl_set.h \
  /usr/include/c++/11/bits/stl_multiset.h \
  /usr/local/geant4.11.4.0/include/Geant4/evtdefs.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Allocator.hh \
+ /usr/include/c++/11/cstddef \
+ /usr/local/geant4.11.4.0/include/Geant4/G4AllocatorPool.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryVertex.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryParticle.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ThreeVector.hh \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/defs.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/pwdefs.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4HCofThisEvent.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VHitsCollection.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4DCofThisEvent.hh \
@@ -256,11 +234,32 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: \
  /usr/include/c++/11/memory \
  /usr/include/c++/11/bits/stl_raw_storage_iter.h \
  /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
+ /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr_base.h \
+ /usr/include/c++/11/bits/allocated_ptr.h \
+ /usr/include/c++/11/ext/concurrence.h \
  /usr/include/c++/11/bits/shared_ptr_atomic.h \
+ /usr/include/c++/11/bits/atomic_base.h \
+ /usr/include/c++/11/bits/atomic_lockfree_defines.h \
  /usr/include/c++/11/backward/auto_ptr.h \
  /usr/include/c++/11/pstl/glue_memory_defs.h \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserEventInformation.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4SingleParticleSource.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VPrimaryGenerator.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleMomentum.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleDefinition.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PDefManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4AutoLock.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Threading.hh \
+ /usr/include/c++/11/condition_variable /usr/include/c++/11/future \
+ /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_futex.h \
+ /usr/include/c++/11/bits/std_thread.h /usr/include/c++/11/thread \
+ /usr/include/c++/11/bits/this_thread_sleep.h \
+ /usr/include/c++/11/stdlib.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Units/PhysicalConstants.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Units/defs.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Units/SystemOfUnits.h \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleDefinition.icc \
  /usr/local/geant4.11.4.0/include/Geant4/G4SPSPosDistribution.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Navigator.hh \
  /usr/local/geant4.11.4.0/include/Geant4/geomdefs.hh \
@@ -364,17 +363,18 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/globals.hh \
  /mnt/hgfs/Shared/B1/include/EventAction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4UserEventAction.hh \
+ /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
+ /mnt/hgfs/Shared/B1/include/DetectorConstruction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VUserDetectorConstruction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Cache.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Event.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryVertex.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTable.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTableIterator.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTable.icc \
- /usr/local/geant4.11.4.0/include/Geant4/G4IonTable.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4Ions.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTable.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleDefinition.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4Geantino.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4SystemOfUnits.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ios.hh \
  /usr/local/geant4.11.4.0/include/Geant4/Randomize.hh \
  /usr/local/clhep/2.4.7.2/include/CLHEP/Random/Randomize.h \
  /usr/local/clhep/2.4.7.2/include/CLHEP/Random/defs.h \
@@ -436,4 +436,80 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: \
  /usr/local/clhep/2.4.7.2/include/CLHEP/Random/RandSkewNormal.h \
  /usr/local/clhep/2.4.7.2/include/CLHEP/Random/RandSkewNormal.icc \
  /usr/local/clhep/2.4.7.2/include/CLHEP/Random/RandStudentT.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Random/RandStudentT.icc
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Random/RandStudentT.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4RunManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4EventManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4StackManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UserStackingAction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ClassificationOfNewTrack.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4StackedTrack.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4TrackStack.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4SmartTrackStack.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4SubEventTrackStack.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4SubEvent.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Track.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/trkdefs.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4DynamicParticle.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ElectronOccupancy.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4LorentzVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4DynamicParticle.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4TrackStatus.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VUserTrackInformation.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PhysicsModelCatalog.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Material.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Element.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ElementTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ElementVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4IonisParamElm.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Isotope.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4IsotopeVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4IonisParamMat.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4DensityEffectCalculator.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4MaterialPropertiesTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4MaterialPropertiesIndex.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4MaterialPropertyVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4MaterialTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4SandiaTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4OrderedTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4DataVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4DataVector.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Track.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Step.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4StepPoint.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4SteppingControl.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4StepStatus.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4StepPoint.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4TrackVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Step.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PrimaryTransformer.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4TrackingManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4SteppingManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4NoProcess.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VProcess.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/Randomize.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PhysicsTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4PhysicsTable.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VParticleChange.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VParticleChange.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ForceCondition.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4GPILSelection.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleChange.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleChange.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ProcessType.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ProcessManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ProcessVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ProcessVector.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ProcessManager.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UserSteppingAction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VSteppingVerbose.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/trkgdefs.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4TrackingMessenger.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UserTrackingAction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4RunManagerKernel.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/rundefs.hh \
+ /usr/include/c++/11/list /usr/include/c++/11/bits/stl_list.h \
+ /usr/include/c++/11/bits/list.tcc /usr/include/c++/11/filesystem \
+ /usr/include/c++/11/bits/fs_fwd.h /usr/include/c++/11/bits/fs_path.h \
+ /usr/include/c++/11/codecvt /usr/include/c++/11/bits/fs_dir.h \
+ /usr/include/c++/11/bits/fs_ops.h

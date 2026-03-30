@@ -18,7 +18,15 @@ public:
 
   virtual G4VPhysicalVolume *Construct();
 
+  void DefineMaterials();
+
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
+
+  G4Material *fVacuum;
+  G4Material *fMat10BN;
+  G4Material *fMatZnS;
+  G4Material *fMatZnSAg;
+  G4Material *fMatBN_ZnS;
 
   G4double GetFilmThickness() const { return fFilmThickness; }
   G4double GetFilmCenterZ() const { return fFilmCenterZ; }

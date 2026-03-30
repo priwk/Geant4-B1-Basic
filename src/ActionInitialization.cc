@@ -29,7 +29,7 @@ void ActionInitialization::Build() const
   SetUserAction(eventAction);
 
   PrimaryGeneratorAction *primaryGeneratorAction =
-      new PrimaryGeneratorAction(eventAction);
+      new PrimaryGeneratorAction(eventAction, &fAnalysisConfig);
   SetUserAction(primaryGeneratorAction);
 
   SteppingAction *steppingAction =

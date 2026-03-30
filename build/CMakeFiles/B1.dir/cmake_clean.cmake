@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/B1.dir/B1.cc.o.d"
   "CMakeFiles/B1.dir/src/ActionInitialization.cc.o"
   "CMakeFiles/B1.dir/src/ActionInitialization.cc.o.d"
+  "CMakeFiles/B1.dir/src/AnalysisConfig.cc.o"
+  "CMakeFiles/B1.dir/src/AnalysisConfig.cc.o.d"
   "CMakeFiles/B1.dir/src/DetectorConstruction.cc.o"
   "CMakeFiles/B1.dir/src/DetectorConstruction.cc.o.d"
   "CMakeFiles/B1.dir/src/EventAction.cc.o"

@@ -22,10 +22,6 @@ private:
   EventAction *fEventAction;
   DetectorConstruction *fDetector;
   const AnalysisConfig *fAnalysisConfig;
-
-  // CSV file for step information
-  static std::ofstream fStepCSVFile;
-  static G4bool fStepCSVInitialized;
 };
 
 #endif

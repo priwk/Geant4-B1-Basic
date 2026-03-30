@@ -1,83 +1,16 @@
-# ---------- run.mac ----------
-# 用途：
-# 定义粒子源并执行模拟
-# 适合交互模式下手动执行：
-# /control/execute run.mac
-# --------------------------------
+/control/verbose 1
 
-/control/verbose 0
-/run/verbose 0
-/event/verbose 0
-/tracking/verbose 0
+/control/echo ========================================
+/control/echo Stage 1: thickness screening
+/control/echo ========================================
+/control/execute thickness_screening.mac
 
-# ==============================
-# 一、与热中子相关的可选设置
-# ==============================
+/control/echo ========================================
+/control/echo Stage 2: source generation
+/control/echo ========================================
+/control/execute source_generation.mac
 
-# 若物理列表中存在 nKiller，可关闭它
-# 若报错，直接注释掉即可
-#/process/inactivate nKiller
-
-# 某些环境下可用此替代命令
-#/physics_engine/neutron/timeLimit 1 ms
-
-# ==============================
-# 二、设置厚度并重建几何
-# ==============================
-/det/setThickness 300 um
-/run/reinitializeGeometry
-/run/initialize
-
-
-# ==============================
-# 三、GPS 粒子源设置
-# ==============================
-
-# 粒子类型：中子
-/gps/particle neutron
-
-# ------------------------------
-# 1.空间分布：点源
-# ------------------------------
-
-# 空间分布：点源
-#/gps/pos/type Point
-#/gps/pos/centre 0 0 6 cm
-
-# ------------------------------
-# 2.空间分布：平面面源
-# ------------------------------
-
-/gps/pos/type Plane
-
-# 面源形状：方形
-/gps/pos/shape Square
-
-# 源中心位置：位于样品前方 5 cm
-/gps/pos/centre 0 0 5 cm
-
-# 半边长：1 cm
-# 即总照射区域为 2 cm x 2 cm
-# 可根据你的样品尺寸调整
-/gps/pos/halfx 1 cm
-/gps/pos/halfy 1 cm
-
-# ------------------------------
-# 角分布：平行束
-# ------------------------------
-
-/gps/ang/type beam1d
-/gps/direction 0 0 -1
-
-# 能量分布：单能热中子
-/gps/ene/type Mono
-/gps/ene/mono 0.0253 eV
-
-# ==============================
-# 四、开始运行
-# ==============================
-
-# 先跑少量事例做调试
-/run/beamOn 10000
-
-# ---------- end ----------
+/control/echo ========================================
+/control/echo Stage 3: replay production
+/control/echo ========================================
+/control/execute replay_production.mac

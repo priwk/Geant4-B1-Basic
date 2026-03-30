@@ -339,4 +339,6 @@ CMakeFiles/B1.dir/src/DetectorConstruction.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/G4ApplicationState.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4UIparameter.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4UImessenger.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4UIdirectory.hh
+ /usr/local/geant4.11.4.0/include/Geant4/G4UIdirectory.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4MaterialPropertiesTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4OpticalParameters.hh

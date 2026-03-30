@@ -13,10 +13,18 @@
 
 #include "G4GenericMessenger.hh"
 
+#include "G4MaterialPropertiesTable.hh"
+#include "G4OpticalParameters.hh"
+
 DetectorConstruction::DetectorConstruction()
     : G4VUserDetectorConstruction(),
       fMessenger(nullptr),
       fScoringVolume(nullptr),
+      fVacuum(nullptr),
+      fMat10BN(nullptr),
+      fMatZnS(nullptr),
+      fMatZnSAg(nullptr),
+      fMatBN_ZnS(nullptr),
       fFilmThickness(0.0),
       fFilmCenterZ(0.0),
       fFilmFrontZ(0.0),
@@ -43,44 +51,33 @@ DetectorConstruction::~DetectorConstruction()
     delete fMessenger;
 }
 
-// 构建函数
-G4VPhysicalVolume *DetectorConstruction::Construct()
+void DetectorConstruction::DefineMaterials()
 {
+    if (fVacuum && fMat10BN && fMatZnS && fMatZnSAg && fMatBN_ZnS)
+    {
+        return;
+    }
+
     G4NistManager *nist = G4NistManager::Instance();
 
-    // =========================
-    // 1. 定义真空世界
-    // =========================
+    // 1. 真空世界材料
     static constexpr G4double universe_mean_density = 1.e-25 * g / cm3;
-    G4double pressure = 3.e-18 * pascal;
-    G4double temperature = 2.73 * kelvin;
+    const G4double pressure = 3.e-18 * pascal;
+    const G4double temperature = 2.73 * kelvin;
 
-    G4Material *Vacuum = new G4Material(
-        "Galactic",
-        1.,
-        1.008 * g / mole,
-        universe_mean_density,
-        kStateGas,
-        temperature,
-        pressure);
+    if (!fVacuum)
+    {
+        fVacuum = new G4Material(
+            "Galactic",
+            1.,
+            1.008 * g / mole,
+            universe_mean_density,
+            kStateGas,
+            temperature,
+            pressure);
+    }
 
-    G4double worldXY = 6 * cm;
-    G4double worldZ = 8 * cm;
-
-    G4Box *solidWorld = new G4Box("World", 0.5 * worldXY, 0.5 * worldXY, 0.5 * worldZ);
-    G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, Vacuum, "World");
-    G4VPhysicalVolume *physWorld = new G4PVPlacement(
-        nullptr,
-        G4ThreeVector(),
-        logicWorld,
-        "World",
-        nullptr,
-        false,
-        0);
-
-    // =========================
     // 2. 定义 10B 富集元素
-    // =========================
     G4Isotope *B10 = new G4Isotope("B10", 5, 10, 10.0129370 * g / mole);
     G4Isotope *B11 = new G4Isotope("B11", 5, 11, 11.009305 * g / mole);
 
@@ -91,42 +88,87 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     G4Element *elN = nist->FindOrBuildElement("N");
     G4Element *elZn = nist->FindOrBuildElement("Zn");
     G4Element *elS = nist->FindOrBuildElement("S");
-
-    // =========================
-    // 3. 定义 10BN、ZnS 和 ZnS:Ag
-    // =========================
-    G4double densityBN = 2.1 * g / cm3;
-    G4Material *mat10BN = new G4Material("B10N", densityBN, 2);
-    mat10BN->AddElement(elB_enriched, 1);
-    mat10BN->AddElement(elN, 1);
-
-    G4double densityZnS = 4.09 * g / cm3;
-    G4Material *matZnS = new G4Material("ZnS", densityZnS, 2);
-    matZnS->AddElement(elZn, 1);
-    matZnS->AddElement(elS, 1);
-
-    // Ag 元素
     G4Element *elAg = nist->FindOrBuildElement("Ag");
 
-    // ZnS:Ag，按 ZnS 相内掺银 0.1 wt%
-    G4double densityZnSAg = 4.0925 * g / cm3; // 估算值，也可直接继续用 4.09
-    G4Material *matZnSAg = new G4Material("ZnS_Ag", densityZnSAg, 2);
-    matZnSAg->AddMaterial(matZnS, 99.9 * perCent);
-    matZnSAg->AddElement(elAg, 0.1 * perCent);
+    // 3. 定义 10BN、ZnS 和 ZnS:Ag
+    if (!fMat10BN)
+    {
+        const G4double densityBN = 2.1 * g / cm3;
+        fMat10BN = new G4Material("B10N", densityBN, 2);
+        fMat10BN->AddElement(elB_enriched, 1);
+        fMat10BN->AddElement(elN, 1);
+    }
 
-    // =========================
+    if (!fMatZnS)
+    {
+        const G4double densityZnS = 4.09 * g / cm3;
+        fMatZnS = new G4Material("ZnS", densityZnS, 2);
+        fMatZnS->AddElement(elZn, 1);
+        fMatZnS->AddElement(elS, 1);
+    }
+
+    if (!fMatZnSAg)
+    {
+        const G4double densityZnSAg = 4.0925 * g / cm3;
+        fMatZnSAg = new G4Material("ZnS_Ag", densityZnSAg, 2);
+        fMatZnSAg->AddMaterial(fMatZnS, 99.9 * perCent);
+        fMatZnSAg->AddElement(elAg, 0.1 * perCent);
+    }
+
     // 4. 定义混合物：10BN + ZnS:Ag
-    // =========================
     fBNWt = 50.0;
     fZnSWt = 50.0;
 
-    G4double densityMix = 2.94 * g / cm3; // 按你当前 BN=2.1、ZnS:Ag 估算后的更合理值
-    G4Material *matBN_ZnS = new G4Material("B10BN_ZnS_Mix", densityMix, 2);
-    matBN_ZnS->AddMaterial(mat10BN, fBNWt * perCent);
-    matBN_ZnS->AddMaterial(matZnSAg, fZnSWt * perCent);
+    if (!fMatBN_ZnS)
+    {
+        const G4double densityMix = 2.94 * g / cm3;
+        fMatBN_ZnS = new G4Material("B10BN_ZnS_Mix", densityMix, 2);
+        fMatBN_ZnS->AddMaterial(fMat10BN, fBNWt * perCent);
+        fMatBN_ZnS->AddMaterial(fMatZnSAg, fZnSWt * perCent);
+    }
+
+    // 5. 最简光学属性：World 和 Film
+    const G4int nEntries = 2;
+    G4double photonEnergy[nEntries] = {2.5 * eV, 3.2 * eV};
+
+    // World / Vacuum
+    G4double rindexVacuum[nEntries] = {1.0, 1.0};
+    auto *mptVacuum = new G4MaterialPropertiesTable();
+    mptVacuum->AddProperty("RINDEX", photonEnergy, rindexVacuum, nEntries);
+    fVacuum->SetMaterialPropertiesTable(mptVacuum);
+
+    // Film / B10BN_ZnS_Mix
+    G4double rindexFilm[nEntries] = {1.98, 1.98};
+    G4double absFilm[nEntries] = {1.5 * mm, 1.5 * mm};
+
+    auto *mptFilm = new G4MaterialPropertiesTable();
+    mptFilm->AddProperty("RINDEX", photonEnergy, rindexFilm, nEntries);
+    mptFilm->AddProperty("ABSLENGTH", photonEnergy, absFilm, nEntries);
+    fMatBN_ZnS->SetMaterialPropertiesTable(mptFilm);
+}
+
+// 构建函数
+G4VPhysicalVolume *DetectorConstruction::Construct()
+{
+
+    DefineMaterials(); // 材料已定义
+
+    G4double worldXY = 6 * cm;
+    G4double worldZ = 8 * cm;
+
+    G4Box *solidWorld = new G4Box("World", 0.5 * worldXY, 0.5 * worldXY, 0.5 * worldZ);
+    G4LogicalVolume *logicWorld = new G4LogicalVolume(solidWorld, fVacuum, "World");
+    G4VPhysicalVolume *physWorld = new G4PVPlacement(
+        nullptr,
+        G4ThreeVector(),
+        logicWorld,
+        "World",
+        nullptr,
+        false,
+        0);
 
     // =========================
-    // 5. 定义薄膜（Film）
+    // 定义薄膜（Film）
     // =========================
     G4double filmXY = 5 * cm;
     G4double filmT = fFilmThicknessInput;
@@ -134,7 +176,7 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     G4ThreeVector filmPos = G4ThreeVector(0, 0, 0);
 
     G4Box *solidFilm = new G4Box("Film", 0.5 * filmXY, 0.5 * filmXY, 0.5 * filmT);
-    G4LogicalVolume *logicFilm = new G4LogicalVolume(solidFilm, matBN_ZnS, "Film");
+    G4LogicalVolume *logicFilm = new G4LogicalVolume(solidFilm, fMatBN_ZnS, "Film");
 
     new G4PVPlacement(
         nullptr,

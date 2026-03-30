@@ -41,26 +41,3 @@
 /vis/viewer/flush
 /vis/viewer/refresh viewer-0
 /vis/viewer/update viewer-0
-/control/execute run.mac
-/control/verbose 0
-/run/verbose 0
-/event/verbose 0
-/tracking/verbose 0
-/det/setThickness 100 um
-/run/reinitializeGeometry
-/vis/scene/notifyHandlers scene-0
-/run/initialize
-/vis/scene/notifyHandlers scene-0
-/vis/scene/notifyHandlers scene-0
-/gps/particle neutron
-/gps/pos/type Plane
-/gps/pos/shape Square
-/gps/pos/centre 0 0 5 cm
-/gps/pos/halfx 1 cm
-/gps/pos/halfy 1 cm
-/gps/ang/type beam1d
-/gps/direction 0 0 -1
-/gps/ene/type Mono
-/gps/ene/mono 0.0253 eV
-/run/beamOn 10000
-/vis/scene/notifyHandlers scene-0

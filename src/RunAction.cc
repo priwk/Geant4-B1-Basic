@@ -7,6 +7,7 @@
 #include "G4ios.hh"
 
 #include <fstream>
+#include <filesystem>
 
 RunAction::RunAction(const AnalysisConfig *config)
     : G4UserRunAction(),
@@ -82,12 +83,27 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
             return;
         }
 
-        G4double thicknessUm = detector->GetFilmThickness() / um;
+        const G4double thicknessUm = detector->GetFilmThickness() / um;
 
-        // 判断文件是否为空，若为空则先写表头
+        namespace fs = std::filesystem;
+        fs::path outDir =
+            fs::current_path().parent_path() / "Data" / "neutron_transport_summary";
+
+        std::error_code ec;
+        fs::create_directories(outDir, ec);
+        if (ec)
+        {
+            G4cerr << "Error: cannot create directory "
+                   << outDir.string()
+                   << " | " << ec.message() << G4endl;
+            return;
+        }
+
+        fs::path outPath = outDir / "neutron_transport_summary.csv";
+
         G4bool needHeader = false;
         {
-            std::ifstream checkFile("capture_summary.csv");
+            std::ifstream checkFile(outPath.string());
             if (!checkFile.good() ||
                 checkFile.peek() == std::ifstream::traits_type::eof())
             {
@@ -95,10 +111,10 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
             }
         }
 
-        std::ofstream outFile("capture_summary.csv", std::ios::app);
+        std::ofstream outFile(outPath.string(), std::ios::app);
         if (!outFile.is_open())
         {
-            G4cerr << "Error: cannot open csv" << G4endl;
+            G4cerr << "Error: cannot open " << outPath.string() << G4endl;
             return;
         }
 
@@ -108,9 +124,9 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
                     << "n_incident,"
                     << "n_capture,"
                     << "n_transmit,"
-                    << "capture_eff,"
-                    << "transmit_eff,"
-                    << "other_eff,"
+                    << "capture_efficiency,"
+                    << "transmission_efficiency,"
+                    << "other_loss_efficiency,"
                     << "attenuation"
                     << G4endl;
         }

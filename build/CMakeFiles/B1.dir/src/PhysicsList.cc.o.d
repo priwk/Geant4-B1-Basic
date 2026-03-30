@@ -550,4 +550,6 @@ CMakeFiles/B1.dir/src/PhysicsList.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/G4Neutron.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4AntiNeutron.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4IonConstructor.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4ShortLivedConstructor.hh
+ /usr/local/geant4.11.4.0/include/Geant4/G4ShortLivedConstructor.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4OpticalPhysics.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4OpticalParameters.hh

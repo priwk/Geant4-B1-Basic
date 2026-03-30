@@ -18,23 +18,21 @@
 #include "G4IonConstructor.hh"
 #include "G4ShortLivedConstructor.hh"
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "G4OpticalPhysics.hh"
 
 PhysicsList::PhysicsList() : G4VModularPhysicsList()
 {
   SetVerboseLevel(1);
+
   RegisterPhysics(new G4EmStandardPhysics());     // 电磁过程
   RegisterPhysics(new G4DecayPhysics);            // 衰变物理过程
   RegisterPhysics(new G4RadioactiveDecayPhysics); // 放射性衰变物理过程
+  RegisterPhysics(new G4OpticalPhysics());        // 光学过程
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 PhysicsList::~PhysicsList()
 {
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PhysicsList::SetCuts()
 {

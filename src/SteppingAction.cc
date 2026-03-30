@@ -14,12 +14,121 @@
 #include "G4ThreeVector.hh"
 #include "G4Run.hh"
 #include "G4Event.hh"
+#include "G4StepStatus.hh"
+
+#include "G4OpticalPhoton.hh"
+#include "G4OpBoundaryProcess.hh"
+#include "G4ProcessManager.hh"
+#include "G4ProcessVector.hh"
 
 #include <vector>
+#include <fstream>
+#include <filesystem>
+#include <string>
+#include <cmath>
 
-// CSV静态成员定义
-std::ofstream SteppingAction::fStepCSVFile;
-G4bool SteppingAction::fStepCSVInitialized = false;
+namespace
+{
+    std::ofstream gStepCSVFile;
+    G4int gStepCSVRunID = -999999;
+
+    G4bool EnsureStepCSVForLabel(G4int label)
+    {
+        namespace fs = std::filesystem;
+
+        if (gStepCSVFile.is_open() && gStepCSVRunID == label)
+        {
+            return true;
+        }
+
+        if (gStepCSVFile.is_open())
+        {
+            gStepCSVFile.close();
+        }
+
+        fs::path outDir = fs::current_path().parent_path() / "Data" / "alpha_li_steps";
+
+        std::error_code ec;
+        fs::create_directories(outDir, ec);
+        if (ec)
+        {
+            G4cerr << "Error: cannot create directory "
+                   << outDir.string()
+                   << " | " << ec.message() << G4endl;
+            return false;
+        }
+
+        fs::path outPath =
+            outDir / (std::to_string(label) + "_alpha_li_steps.csv");
+
+        const bool fileExists = fs::exists(outPath);
+
+        gStepCSVFile.open(outPath.string(), std::ios::out | std::ios::app);
+        if (!gStepCSVFile.is_open())
+        {
+            G4cerr << "Error: cannot open " << outPath.string() << G4endl;
+            return false;
+        }
+
+        gStepCSVRunID = label;
+
+        if (!fileExists)
+        {
+            gStepCSVFile
+                << "source_label,eventID,trackID,stepID,particle,"
+                << "bn_wt,zns_wt,thickness_um,"
+                << "capture_x_um,capture_y_um,capture_z_um,capture_depth_um,"
+                << "x_pre_um,y_pre_um,z_pre_um,"
+                << "x_post_um,y_post_um,z_post_um,"
+                << "x_mid_um,y_mid_um,z_mid_um,depth_mid_um,"
+                << "step_len_um,edep_keV,"
+                << "ekin_pre_keV,ekin_post_keV"
+                << G4endl;
+        }
+
+        return true;
+    }
+
+    void CloseStepCSV()
+    {
+        if (gStepCSVFile.is_open())
+        {
+            gStepCSVFile.close();
+        }
+        gStepCSVRunID = -999999;
+    }
+
+    // 获取光子边界过程
+    G4OpBoundaryProcess *GetOpBoundaryProcess()
+    {
+        static G4OpBoundaryProcess *boundary = nullptr;
+        if (boundary)
+        {
+            return boundary;
+        }
+
+        auto *pm = G4OpticalPhoton::OpticalPhoton()->GetProcessManager();
+        if (!pm)
+        {
+            return nullptr;
+        }
+
+        auto *pv = pm->GetProcessList();
+        const G4int nProc = pm->GetProcessListLength();
+
+        for (G4int i = 0; i < nProc; ++i)
+        {
+            auto *proc = (*pv)[i];
+            boundary = dynamic_cast<G4OpBoundaryProcess *>(proc);
+            if (boundary)
+            {
+                return boundary;
+            }
+        }
+
+        return nullptr;
+    }
+}
 
 // 构造函数
 SteppingAction::SteppingAction(EventAction *eventAction,
@@ -35,41 +144,11 @@ SteppingAction::SteppingAction(EventAction *eventAction,
     G4cout << "enableAlphaLiStepCSV = "
            << (fAnalysisConfig ? fAnalysisConfig->enableAlphaLiStepCSV : -1)
            << G4endl;
-
-    if (fAnalysisConfig &&
-        fAnalysisConfig->enableAlphaLiStepCSV &&
-        !fStepCSVInitialized)
-    {
-        fStepCSVFile.open("alpha_li_steps.csv");
-
-        if (fStepCSVFile.is_open())
-        {
-            fStepCSVFile
-                << "runID,eventID,trackID,stepID,particle,"
-                << "bn_wt,zns_wt,thickness_um,"
-                << "capture_x_um,capture_y_um,capture_z_um,capture_depth_um,"
-                << "x_pre_um,y_pre_um,z_pre_um,"
-                << "x_post_um,y_post_um,z_post_um,"
-                << "x_mid_um,y_mid_um,z_mid_um,depth_mid_um,"
-                << "step_len_um,edep_keV,"
-                << "ekin_pre_keV,ekin_post_keV"
-                << G4endl;
-
-            fStepCSVInitialized = true;
-        }
-        else
-        {
-            G4cerr << "Error: cannot open alpha_li_steps.csv" << G4endl;
-        }
-    }
 }
 
 SteppingAction::~SteppingAction()
 {
-    if (fStepCSVFile.is_open())
-    {
-        fStepCSVFile.close();
-    }
+    CloseStepCSV();
 }
 
 // 用户步进动作
@@ -99,6 +178,50 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
     }
 
     G4String particleName = track->GetDefinition()->GetParticleName();
+
+    // ---------------------------------------------------------
+    // 0. optical photon 读出统计：从 Film 背面(-z 面)出射到 World
+    // ---------------------------------------------------------
+    if (particleName == "opticalphoton")
+    {
+        G4VPhysicalVolume *postVolume = postPoint->GetPhysicalVolume();
+        G4String postVolumeName = (postVolume ? postVolume->GetName() : "");
+
+        if (postPoint->GetStepStatus() == fGeomBoundary)
+        {
+            if (volumeName == "Film" && postVolumeName == "World")
+            {
+                G4double backZ = fDetector->GetFilmBackZ();
+                G4double zPost = postPoint->GetPosition().z();
+
+                if (zPost <= backZ + 1e-9 * mm)
+                {
+                    G4OpBoundaryProcess *boundary = GetOpBoundaryProcess();
+
+                    if (boundary)
+                    {
+                        const auto status = boundary->GetStatus();
+
+                        const G4bool reallyEscaped =
+                            (status == Transmission ||
+                             status == FresnelRefraction);
+
+                        if (reallyEscaped)
+                        {
+                            G4ThreeVector pos = postPoint->GetPosition();
+                            fEventAction->AddDetectedPhoton(pos.x(), pos.y());
+
+                            // 既然你只关心“到达读出面”的计数，
+                            // 这里可以直接杀掉，避免后续无意义追踪
+                            track->SetTrackStatus(fStopAndKill);
+                        }
+                    }
+                }
+            }
+        }
+
+        return;
+    }
 
     // ---------------------------------------------------------
     // 1. α / Li7 路径长度累计
@@ -174,10 +297,13 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
                     const G4Event *currentEvent = G4RunManager::GetRunManager()->GetCurrentEvent();
                     G4int eventID = (currentEvent ? currentEvent->GetEventID() : -1);
 
-                    if (fStepCSVFile.is_open())
+                    G4int sourceLabel =
+                        static_cast<G4int>(std::lround(fDetector->GetFilmThickness() / um));
+
+                    if (EnsureStepCSVForLabel(sourceLabel))
                     {
-                        fStepCSVFile
-                            << runID << ","
+                        gStepCSVFile
+                            << sourceLabel << ","
                             << eventID << ","
                             << track->GetTrackID() << ","
                             << track->GetCurrentStepNumber() << ","
@@ -207,7 +333,7 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
                     }
                     else
                     {
-                        G4cerr << "Error: alpha_li_steps.csv is not open." << G4endl;
+                        G4cerr << "Error: per-label alpha_li_steps CSV is not open." << G4endl;
                     }
                 }
             }

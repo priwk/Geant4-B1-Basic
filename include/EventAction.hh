@@ -25,6 +25,7 @@ public:
   // ---- 沉积能量累计 ----
   void AddEdep(G4double edep);
 
+  // ---- 源位置 ----
   void SetSourcePosition(G4double x, G4double y);
 
   // ---- 俘获信息 ----
@@ -40,11 +41,18 @@ public:
   void SetTransmitted();
   G4bool HasTransmit() const;
 
-  // ---- 可选：给 SteppingAction / RunAction 读取 ----
+  // ---- 给 SteppingAction / RunAction 读取 ----
   G4double GetAlphaTrackLen() const;
   G4double GetLi7TrackLen() const;
   G4double GetEdep() const;
   G4double GetGeneratedPhotons() const;
+
+  // ---- replay 光子信息 ----
+  // replay_photons: 本事件生成并发射的光子数
+  // detected/escaped photons: 成功从 Film 背面透射到 World 的光子数
+  void SetReplayPhotonCount(G4int n);
+  void AddDetectedPhoton(G4double x, G4double y);
+  G4double GetReplayPhotonCount() const;
 
 private:
   RunAction *fRunAction;
@@ -70,17 +78,20 @@ private:
   G4double fCaptureZ;
   G4double fDepth;
 
-  // 反应位置 CSV
-  static std::ofstream fCSVFile;
+  // 按厚度分文件的 CSV 句柄
+  static std::ofstream fCSVFile; // neutron_capture_positions
   static G4bool fCSVInitialized;
 
-  // 能量沉积 CSV
-  static std::ofstream fEdepCSVFile;
+  static std::ofstream fEdepCSVFile; // energy_deposition
   static G4bool fEdepCSVInitialized;
 
-  // 发光源项 CSV
-  static std::ofstream fLightCSVFile;
-  static G4bool fLightCSVInitialized;
+  // replay 光子统计
+  G4int fReplayPhotonCount;
+  G4int fDetectedPhotonCount;
+  G4double fDetectedSumX;
+  G4double fDetectedSumY;
+  G4double fDetectedSumX2;
+  G4double fDetectedSumY2;
 };
 
 #endif

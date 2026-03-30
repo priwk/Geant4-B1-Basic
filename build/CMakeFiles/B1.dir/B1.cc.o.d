@@ -645,4 +645,6 @@ CMakeFiles/B1.dir/B1.cc.o: /mnt/hgfs/Shared/B1/B1.cc \
  /usr/local/geant4.11.4.0/include/Geant4/G4UIbatch.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4UIExecutive.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUIshell.hh \
- /usr/local/geant4.11.4.0/include/Geant4/Randomize.hh
+ /usr/local/geant4.11.4.0/include/Geant4/Randomize.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4OpticalPhysics.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4OpticalParameters.hh
