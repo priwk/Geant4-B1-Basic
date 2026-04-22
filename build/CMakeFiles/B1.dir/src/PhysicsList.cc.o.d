@@ -551,5 +551,43 @@ CMakeFiles/B1.dir/src/PhysicsList.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/G4AntiNeutron.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4IonConstructor.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ShortLivedConstructor.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronElasticPhysicsHP.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronElasticPhysics.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronElastic.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronicInteraction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadFinalState.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadSecondary.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4LorentzRotation.hh \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/LorentzRotation.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/Boost.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/BoostX.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/BoostX.icc \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/BoostY.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/BoostY.icc \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/BoostZ.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/BoostZ.icc \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/Boost.icc \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/LorentzRotation.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Nucleus.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleTypes.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ReactionProduct.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadProjectile.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronicException.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ReactionProductVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4NucleiProperties.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronicProcess.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VDiscreteProcess.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4EnergyRangeManager.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronicProcessType.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4CrossSectionDataStore.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VCrossSectionDataSet.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadXSTypes.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronPhysicsQGSP_BIC_HP.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronPhysicsQGSP_BIC.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4HadronPhysicsQGSP_BERT.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4OpticalPhysics.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4OpticalParameters.hh
+ /usr/local/geant4.11.4.0/include/Geant4/G4OpticalParameters.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ThermalNeutrons.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VHadronPhysics.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4CrossSectionInelastic.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4IonPhysicsPHP.hh

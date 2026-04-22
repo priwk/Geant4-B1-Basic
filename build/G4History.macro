@@ -41,3 +41,5 @@
 /vis/viewer/flush
 /vis/viewer/refresh viewer-0
 /vis/viewer/update viewer-0
+/run/beamOn 1
+/vis/scene/notifyHandlers scene-0

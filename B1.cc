@@ -118,10 +118,11 @@ int main(int argc, char **argv)
   // 是否有 10B(n,alpha)7Li、是否有 nKiller 等，
   // 都取决于 PhysicsList 里到底注册了什么。
 
-  G4VModularPhysicsList *physicsList = new QGSP_BIC_HP;
-  physicsList->SetVerboseLevel(1);
-  physicsList->RegisterPhysics(new G4OpticalPhysics());
-  runManager->SetUserInitialization(physicsList);
+  // 1. 实例化你自己写的 PhysicsList
+  G4VUserPhysicsList *myPhysicsList = new PhysicsList();
+
+  // 2. 将它注册给 runManager （也就是你问的这行代码的正确用法）
+  runManager->SetUserInitialization(myPhysicsList);
 
   // ---------- 4.3 注册用户动作初始化 ----------
   //

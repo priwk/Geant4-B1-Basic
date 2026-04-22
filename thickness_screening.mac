@@ -7,6 +7,13 @@
 /cfg/usePreset THICKNESS_SCREENING
 
 # ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 2:1
+# ------------------------------
+/det/bnPart 2.0
+/det/znsPart 1.0
+
+# ------------------------------
 # GPS: 热中子平面束
 # ------------------------------
 /gps/particle neutron
@@ -19,6 +26,791 @@
 /gps/direction 0 0 -1
 /gps/ene/type Mono
 /gps/ene/mono 0.0253 eV
+
+/det/setThickness 1 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 2 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 3 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 5 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 10 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 15 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 20 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 30 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 40 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 60 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 70 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 80 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 90 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 125 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 175 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 225 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 250 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 275 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 325 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 350 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 375 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 500 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 700 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 1000 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:1
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 1.0
+
+/det/setThickness 1 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 2 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 3 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 5 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 10 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 15 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 20 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 30 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 40 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 60 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 70 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 80 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 90 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 125 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 175 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 225 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 250 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 275 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 325 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 350 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 375 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 500 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 700 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 1000 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:2
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 1.5
+
+/det/setThickness 1 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 2 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 3 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 5 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 10 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 15 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 20 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 30 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 40 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 60 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 70 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 80 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 90 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 125 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 175 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 225 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 250 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 275 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 325 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 350 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 375 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 500 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 700 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 1000 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:2
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 2.0
+
+/det/setThickness 1 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 2 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 3 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 5 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 10 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 15 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 20 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 30 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 40 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 60 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 70 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 80 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 90 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 125 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 175 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 225 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 250 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 275 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 325 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 350 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 375 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 500 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 700 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 1000 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:2
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 2.5
+
+/det/setThickness 1 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 2 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 3 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 5 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 10 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 15 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 20 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 30 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 40 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 60 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 70 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 80 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 90 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 125 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 175 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 225 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 250 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 275 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 325 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 350 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 375 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 500 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 700 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+/det/setThickness 1000 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 100000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:3
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 3.0
 
 /det/setThickness 1 um
 /run/reinitializeGeometry

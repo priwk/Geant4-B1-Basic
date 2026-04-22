@@ -23,6 +23,10 @@ public:
   void CountCapture();
   void CountTransmit();
 
+  void AddNeutronTrackLength(G4double len);
+  G4double GetTotalNeutronTrackLength() const;
+  G4double GetSigmaEff() const;
+
   G4int GetNIncident() const { return fNIncident; }
   G4int GetNCapture() const { return fNCapture; }
   G4int GetNTransmit() const { return fNTransmit; }
@@ -33,6 +37,8 @@ private:
   G4int fNIncident;
   G4int fNCapture;
   G4int fNTransmit;
+
+  G4double fTotalNeutronTrackLength;
 };
 
 #endif

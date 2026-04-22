@@ -4,22 +4,185 @@
 /tracking/verbose 0
 
 # ------------------------------
-# Stage 2: replay 光学读出
+/cfg/usePreset THICKNESS_SCREENING
+
 # ------------------------------
-/cfg/usePreset REPLAY_PRODUCTION
+# 设置 BN:ZnS(Ag) 配比
+# 2:1
+# ------------------------------
+/det/bnPart 2.0
+/det/znsPart 1.0
 
-# 可选：按需要覆盖 preset 默认值
-#/cfg/setReplayScale 0.5
-#/cfg/setReplayMaxPhotonsPerEvent 20000
-#/cfg/setReplayUseLineSource true
-#/cfg/setReplayUseEdepWeight true
-#/cfg/setReplayLoopEvents false
+# ------------------------------
+# GPS: 热中子平面束
+# ------------------------------
+/gps/particle neutron
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/centre 0 0 5 cm
+/gps/pos/halfx 0.5 cm
+/gps/pos/halfy 0.5 cm
+/gps/ang/type beam1d
+/gps/direction 0 0 -1
+/gps/ene/type Mono
+/gps/ene/mono 0.0253 eV
 
-# 注意：
-# replay 模式下不会再用 GPS 发中子，
-# /run/beamOn N 表示“尝试重放 N 个已记录事件”
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
 
 /det/setThickness 300 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 1500
+/run/beamOn 10000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:1
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 1.0
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:2
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 2.0
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 230 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+# ------------------------------
+# 设置 BN:ZnS(Ag) 配比
+# 1:3
+# ------------------------------
+/det/bnPart 1.0
+/det/znsPart 3.0
+
+/det/setThickness 50 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 100 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+
+/det/setThickness 150 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 190 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 200 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 300 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000
+
+/det/setThickness 400 um
+/run/reinitializeGeometry
+/run/initialize
+/run/beamOn 10000

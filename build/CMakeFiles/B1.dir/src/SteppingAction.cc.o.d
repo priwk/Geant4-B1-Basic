@@ -214,9 +214,18 @@ CMakeFiles/B1.dir/src/SteppingAction.cc.o: \
  /usr/include/c++/11/bits/fstream.tcc \
  /mnt/hgfs/Shared/B1/include/EventAction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4UserEventAction.hh \
+ /mnt/hgfs/Shared/B1/include/RunAction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UserRunAction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UnitsTable.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ThreeVector.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/globals.hh \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/defs.h \
+ /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.icc \
+ /usr/local/geant4.11.4.0/include/Geant4/G4UnitsTable.icc \
+ /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
  /mnt/hgfs/Shared/B1/include/DetectorConstruction.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserDetectorConstruction.hh \
- /usr/local/geant4.11.4.0/include/Geant4/globals.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Cache.hh \
  /usr/include/c++/11/atomic /usr/include/c++/11/bits/atomic_base.h \
  /usr/include/c++/11/bits/atomic_lockfree_defines.h \
@@ -233,10 +242,6 @@ CMakeFiles/B1.dir/src/SteppingAction.cc.o: \
  /usr/local/geant4.11.4.0/include/Geant4/G4CacheDetails.hh \
  /mnt/hgfs/Shared/B1/include/AnalysisConfig.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4Step.hh \
- /usr/local/geant4.11.4.0/include/Geant4/G4ThreeVector.hh \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/defs.h \
- /usr/local/clhep/2.4.7.2/include/CLHEP/Vector/ThreeVector.icc \
  /usr/local/geant4.11.4.0/include/Geant4/G4VPhysicalVolume.hh \
  /usr/local/geant4.11.4.0/include/Geant4/geomdefs.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4RotationMatrix.hh \

@@ -1,5 +1,6 @@
 #include "SteppingAction.hh"
 #include "EventAction.hh"
+#include "RunAction.hh"
 #include "DetectorConstruction.hh"
 #include "AnalysisConfig.hh"
 
@@ -26,17 +27,38 @@
 #include <filesystem>
 #include <string>
 #include <cmath>
+#include <sstream>
+#include <iomanip>
 
 namespace
 {
-    std::ofstream gStepCSVFile;
-    G4int gStepCSVRunID = -999999;
+    std::string FormatRatioTag(G4double bnPart, G4double znsPart)
+    {
+        auto trimNumber = [](G4double x)
+        {
+            std::ostringstream oss;
+            oss << std::fixed << std::setprecision(3) << x;
+            std::string s = oss.str();
+            while (!s.empty() && s.back() == '0')
+                s.pop_back();
+            if (!s.empty() && s.back() == '.')
+                s.pop_back();
+            return s;
+        };
 
-    G4bool EnsureStepCSVForLabel(G4int label)
+        return trimNumber(bnPart) + "-" + trimNumber(znsPart);
+    }
+
+    std::ofstream gStepCSVFile;
+    std::string gStepCSVKey;
+
+    G4bool EnsureStepCSVForLabel(G4int label, const std::string &ratioTag)
     {
         namespace fs = std::filesystem;
 
-        if (gStepCSVFile.is_open() && gStepCSVRunID == label)
+        const std::string key = ratioTag + "/" + std::to_string(label);
+
+        if (gStepCSVFile.is_open() && gStepCSVKey == key)
         {
             return true;
         }
@@ -46,7 +68,7 @@ namespace
             gStepCSVFile.close();
         }
 
-        fs::path outDir = fs::current_path().parent_path() / "Data" / "alpha_li_steps";
+        fs::path outDir = fs::current_path().parent_path() / "Data" / ratioTag / "alpha_li_steps";
 
         std::error_code ec;
         fs::create_directories(outDir, ec);
@@ -70,7 +92,7 @@ namespace
             return false;
         }
 
-        gStepCSVRunID = label;
+        gStepCSVKey = key;
 
         if (!fileExists)
         {
@@ -95,7 +117,7 @@ namespace
         {
             gStepCSVFile.close();
         }
-        gStepCSVRunID = -999999;
+        gStepCSVKey.clear();
     }
 
     // 获取光子边界过程
@@ -300,7 +322,10 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
                     G4int sourceLabel =
                         static_cast<G4int>(std::lround(fDetector->GetFilmThickness() / um));
 
-                    if (EnsureStepCSVForLabel(sourceLabel))
+                    std::string ratioTag =
+                        FormatRatioTag(fDetector->GetBNWt(), fDetector->GetZnSWt());
+
+                    if (EnsureStepCSVForLabel(sourceLabel, ratioTag))
                     {
                         gStepCSVFile
                             << sourceLabel << ","
@@ -341,42 +366,54 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
     }
 
     // ---------------------------------------------------------
+    // 2.75 主中子在 Film 内的路径长度累计（用于 Sigma_eff = N / ΣL）
+    // ---------------------------------------------------------
+    if (track->GetParentID() == 0 && particleName == "neutron")
+    {
+        G4double stepLength = step->GetStepLength();
+        if (stepLength > 0.0 && volumeName == "Film")
+        {
+            if (const auto *runAction =
+                    static_cast<const RunAction *>(
+                        G4RunManager::GetRunManager()->GetUserRunAction()))
+            {
+                const_cast<RunAction *>(runAction)->AddNeutronTrackLength(stepLength);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------
     // 3. 透过判定：主中子从 Film 后表面穿出
     // ---------------------------------------------------------
     if (fAnalysisConfig && fAnalysisConfig->enableAttenuation)
     {
         if (track->GetParentID() == 0 && particleName == "neutron")
         {
-            G4VPhysicalVolume *postVolume = postPoint->GetPhysicalVolume();
-            G4String postVolumeName = (postVolume ? postVolume->GetName() : "");
-
-            // 当前这一步从 Film 走到了 Film 外
-            if (postVolumeName != "Film")
+            // 严谨判定 1：只有粒子当前步正好踩在几何边界上，才进行穿透判断
+            if (postPoint->GetStepStatus() == fGeomBoundary)
             {
-                // 由于源从 +z 打向 -z，后表面在更小的 z 位置
-                G4double backZ = fDetector->GetFilmFrontZ() - fDetector->GetFilmThickness();
+                G4VPhysicalVolume *postVolume = postPoint->GetPhysicalVolume();
+                G4String postVolumeName = (postVolume ? postVolume->GetName() : "");
 
-                if (postPoint->GetPosition().z() <= backZ)
+                // 严谨判定 2：确实是从 Film 内部走到了外面
+                if (volumeName == "Film" && postVolumeName != "Film")
                 {
-                    fEventAction->SetTransmitted();
+                    // 直接调用现成的后表面 Z 坐标，并加上 1e-6 mm (1纳米) 的浮点数容差
+                    // 彻底解决 230 um 这种无法被二进制精确表示的坐标截断问题
+                    G4double backZ = fDetector->GetFilmBackZ();
+
+                    if (postPoint->GetPosition().z() <= backZ + 1e-6 * mm)
+                    {
+                        fEventAction->SetTransmitted();
+                    }
                 }
             }
         }
     }
 
     // ---------------------------------------------------------
-    // 4. 反应位置记录：只记录一次 10B(n,alpha)7Li
+    // 4. 识别一次 10B(n,alpha)7Li 俘获（这个识别不应依赖可选分析开关）
     // ---------------------------------------------------------
-    G4bool needCaptureTag =
-        (fAnalysisConfig &&
-         (fAnalysisConfig->enableReactionPosition ||
-          (fAnalysisConfig->enableLightYield &&
-           fAnalysisConfig->lightOnlyForCaptureEvents)));
-    if (!needCaptureTag)
-    {
-        return;
-    }
-
     if (fEventAction->HasCapture())
     {
         return;
@@ -393,6 +430,8 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
     {
         return;
     }
+
+    // ---------------
 
     G4bool hasAlpha = false;
     G4bool hasLi7 = false;

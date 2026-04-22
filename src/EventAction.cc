@@ -14,6 +14,8 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 
 // =========================
 // 静态成员定义
@@ -40,11 +42,28 @@ namespace
   std::ofstream gOpticalCSVFile;
   std::string gOpticalCSVKey;
 
-  std::filesystem::path GetDataDir()
+  std::string FormatRatioTag(G4double bnPart, G4double znsPart)
+  {
+    auto trimNumber = [](G4double x)
+    {
+      std::ostringstream oss;
+      oss << std::fixed << std::setprecision(3) << x;
+      std::string s = oss.str();
+      while (!s.empty() && s.back() == '0')
+        s.pop_back();
+      if (!s.empty() && s.back() == '.')
+        s.pop_back();
+      return s;
+    };
+
+    return trimNumber(bnPart) + "-" + trimNumber(znsPart);
+  }
+
+  std::filesystem::path GetDataDir(const std::string &ratioTag)
   {
     namespace fs = std::filesystem;
 
-    fs::path dataDir = fs::current_path().parent_path() / "Data";
+    fs::path dataDir = fs::current_path().parent_path() / "Data" / ratioTag;
 
     std::error_code ec;
     fs::create_directories(dataDir, ec);
@@ -70,7 +89,7 @@ namespace
   }
 
   // 捕获位置CSV
-  G4bool EnsureCapturePositionCSVForThickness(G4int thicknessLabel)
+  G4bool EnsureCapturePositionCSVForThickness(G4int thicknessLabel, const std::string &ratioTag)
   {
     namespace fs = std::filesystem;
 
@@ -86,7 +105,7 @@ namespace
       gCaptureCSVFile.close();
     }
 
-    fs::path outDir = GetDataDir() / "neutron_capture_positions";
+    fs::path outDir = GetDataDir(ratioTag) / "neutron_capture_positions";
 
     std::error_code ec;
     fs::create_directories(outDir, ec);
@@ -126,7 +145,7 @@ namespace
   }
 
   // 能量沉积CSV
-  G4bool EnsureEdepCSVForThickness(G4int thicknessLabel)
+  G4bool EnsureEdepCSVForThickness(G4int thicknessLabel, const std::string &ratioTag)
   {
     namespace fs = std::filesystem;
 
@@ -142,7 +161,7 @@ namespace
       gEdepCSVFile.close();
     }
 
-    fs::path outDir = GetDataDir() / "energy_deposition";
+    fs::path outDir = GetDataDir(ratioTag) / "energy_deposition";
 
     std::error_code ec;
     fs::create_directories(outDir, ec);
@@ -180,7 +199,7 @@ namespace
   }
 
   // 光学读取CSV
-  G4bool EnsureOpticalCSVForThickness(G4int thicknessLabel)
+  G4bool EnsureOpticalCSVForThickness(G4int thicknessLabel, const std::string &ratioTag)
   {
     namespace fs = std::filesystem;
 
@@ -196,7 +215,7 @@ namespace
       gOpticalCSVFile.close();
     }
 
-    fs::path outDir = GetDataDir() / "optical_readout";
+    fs::path outDir = GetDataDir(ratioTag) / "optical_readout";
 
     std::error_code ec;
     fs::create_directories(outDir, ec);
@@ -354,6 +373,12 @@ void EventAction::EndOfEventAction(const G4Event *event)
   const G4int thicknessLabel =
       static_cast<G4int>(std::lround(thicknessUm));
 
+  std::string ratioTag = "unknown-ratio";
+  if (detector)
+  {
+    ratioTag = FormatRatioTag(detector->GetBNWt(), detector->GetZnSWt());
+  }
+
   // -------------------------
   // 是否打印
   // -------------------------
@@ -477,7 +502,7 @@ void EventAction::EndOfEventAction(const G4Event *event)
     const G4double corrX = fCaptureX - fSourceX;
     const G4double corrY = fCaptureY - fSourceY;
 
-    if (EnsureCapturePositionCSVForThickness(thicknessLabel))
+    if (EnsureCapturePositionCSVForThickness(thicknessLabel, ratioTag))
     {
       gCaptureCSVFile
           << event->GetEventID() << ","
@@ -505,7 +530,7 @@ void EventAction::EndOfEventAction(const G4Event *event)
       fAnalysisConfig->enableEdep &&
       fHasCapture)
   {
-    if (EnsureEdepCSVForThickness(thicknessLabel))
+    if (EnsureEdepCSVForThickness(thicknessLabel, ratioTag))
     {
       gEdepCSVFile
           << event->GetEventID() << ","
@@ -525,7 +550,7 @@ void EventAction::EndOfEventAction(const G4Event *event)
   // =========================
   if (hasReplayStats)
   {
-    if (EnsureOpticalCSVForThickness(thicknessLabel))
+    if (EnsureOpticalCSVForThickness(thicknessLabel, ratioTag))
     {
       gOpticalCSVFile
           << event->GetEventID() << ","
