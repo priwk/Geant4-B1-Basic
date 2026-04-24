@@ -270,6 +270,54 @@ src/DetectorConstruction.cc.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/DetectorConstruction.cc.s
 .PHONY : src/DetectorConstruction.cc.s
 
+src/EffectiveSigmaCapturePhysics.o: src/EffectiveSigmaCapturePhysics.cc.o
+.PHONY : src/EffectiveSigmaCapturePhysics.o
+
+# target to build an object file
+src/EffectiveSigmaCapturePhysics.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o
+.PHONY : src/EffectiveSigmaCapturePhysics.cc.o
+
+src/EffectiveSigmaCapturePhysics.i: src/EffectiveSigmaCapturePhysics.cc.i
+.PHONY : src/EffectiveSigmaCapturePhysics.i
+
+# target to preprocess a source file
+src/EffectiveSigmaCapturePhysics.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.i
+.PHONY : src/EffectiveSigmaCapturePhysics.cc.i
+
+src/EffectiveSigmaCapturePhysics.s: src/EffectiveSigmaCapturePhysics.cc.s
+.PHONY : src/EffectiveSigmaCapturePhysics.s
+
+# target to generate assembly for a file
+src/EffectiveSigmaCapturePhysics.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.s
+.PHONY : src/EffectiveSigmaCapturePhysics.cc.s
+
+src/EffectiveSigmaCaptureProcess.o: src/EffectiveSigmaCaptureProcess.cc.o
+.PHONY : src/EffectiveSigmaCaptureProcess.o
+
+# target to build an object file
+src/EffectiveSigmaCaptureProcess.cc.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o
+.PHONY : src/EffectiveSigmaCaptureProcess.cc.o
+
+src/EffectiveSigmaCaptureProcess.i: src/EffectiveSigmaCaptureProcess.cc.i
+.PHONY : src/EffectiveSigmaCaptureProcess.i
+
+# target to preprocess a source file
+src/EffectiveSigmaCaptureProcess.cc.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.i
+.PHONY : src/EffectiveSigmaCaptureProcess.cc.i
+
+src/EffectiveSigmaCaptureProcess.s: src/EffectiveSigmaCaptureProcess.cc.s
+.PHONY : src/EffectiveSigmaCaptureProcess.s
+
+# target to generate assembly for a file
+src/EffectiveSigmaCaptureProcess.cc.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/B1.dir/build.make CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.s
+.PHONY : src/EffectiveSigmaCaptureProcess.cc.s
+
 src/EventAction.o: src/EventAction.cc.o
 .PHONY : src/EventAction.o
 
@@ -415,6 +463,12 @@ help:
 	@echo "... src/DetectorConstruction.o"
 	@echo "... src/DetectorConstruction.i"
 	@echo "... src/DetectorConstruction.s"
+	@echo "... src/EffectiveSigmaCapturePhysics.o"
+	@echo "... src/EffectiveSigmaCapturePhysics.i"
+	@echo "... src/EffectiveSigmaCapturePhysics.s"
+	@echo "... src/EffectiveSigmaCaptureProcess.o"
+	@echo "... src/EffectiveSigmaCaptureProcess.i"
+	@echo "... src/EffectiveSigmaCaptureProcess.s"
 	@echo "... src/EventAction.o"
 	@echo "... src/EventAction.i"
 	@echo "... src/EventAction.s"

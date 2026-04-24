@@ -21,6 +21,7 @@ public:
   void DefineMaterials();
 
   G4LogicalVolume *GetScoringVolume() const { return fScoringVolume; }
+  G4Material *GetFilmMaterial() const { return fMatBN_ZnS; }
 
   G4Material *fVacuum;
   G4Material *fMat10BN;
@@ -38,6 +39,10 @@ public:
   G4double GetBNWt() const { return fBNWt; }
   G4double GetZnSWt() const { return fZnSWt; }
 
+  void SetSigmaEffPerCm(G4double valuePerCm);
+  G4bool UseManualSigmaEff() const { return fUseManualSigmaEff; }
+  G4double GetManualSigmaEff() const { return fManualSigmaEff; } // 内部单位：1/length
+
 protected:
   G4GenericMessenger *fMessenger;
 
@@ -52,6 +57,9 @@ protected:
 
   G4double fBNWt;
   G4double fZnSWt;
+
+  G4bool fUseManualSigmaEff;
+  G4double fManualSigmaEff; // 内部单位：1/length
 };
 
 #endif

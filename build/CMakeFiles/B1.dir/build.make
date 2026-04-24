@@ -125,10 +125,38 @@ CMakeFiles/B1.dir/src/DetectorConstruction.cc.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/B1.dir/src/DetectorConstruction.cc.s"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/hgfs/Shared/B1/src/DetectorConstruction.cc -o CMakeFiles/B1.dir/src/DetectorConstruction.cc.s
 
+CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o: CMakeFiles/B1.dir/flags.make
+CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o: /mnt/hgfs/Shared/B1/src/EffectiveSigmaCapturePhysics.cc
+CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o -MF CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o.d -o CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o -c /mnt/hgfs/Shared/B1/src/EffectiveSigmaCapturePhysics.cc
+
+CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.i"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/hgfs/Shared/B1/src/EffectiveSigmaCapturePhysics.cc > CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.i
+
+CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.s"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/hgfs/Shared/B1/src/EffectiveSigmaCapturePhysics.cc -o CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.s
+
+CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o: CMakeFiles/B1.dir/flags.make
+CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o: /mnt/hgfs/Shared/B1/src/EffectiveSigmaCaptureProcess.cc
+CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o -MF CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o.d -o CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o -c /mnt/hgfs/Shared/B1/src/EffectiveSigmaCaptureProcess.cc
+
+CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.i"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/hgfs/Shared/B1/src/EffectiveSigmaCaptureProcess.cc > CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.i
+
+CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.s"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/hgfs/Shared/B1/src/EffectiveSigmaCaptureProcess.cc -o CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.s
+
 CMakeFiles/B1.dir/src/EventAction.cc.o: CMakeFiles/B1.dir/flags.make
 CMakeFiles/B1.dir/src/EventAction.cc.o: /mnt/hgfs/Shared/B1/src/EventAction.cc
 CMakeFiles/B1.dir/src/EventAction.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/B1.dir/src/EventAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/B1.dir/src/EventAction.cc.o"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/EventAction.cc.o -MF CMakeFiles/B1.dir/src/EventAction.cc.o.d -o CMakeFiles/B1.dir/src/EventAction.cc.o -c /mnt/hgfs/Shared/B1/src/EventAction.cc
 
 CMakeFiles/B1.dir/src/EventAction.cc.i: cmake_force
@@ -142,7 +170,7 @@ CMakeFiles/B1.dir/src/EventAction.cc.s: cmake_force
 CMakeFiles/B1.dir/src/PhysicsList.cc.o: CMakeFiles/B1.dir/flags.make
 CMakeFiles/B1.dir/src/PhysicsList.cc.o: /mnt/hgfs/Shared/B1/src/PhysicsList.cc
 CMakeFiles/B1.dir/src/PhysicsList.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/B1.dir/src/PhysicsList.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/B1.dir/src/PhysicsList.cc.o"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/PhysicsList.cc.o -MF CMakeFiles/B1.dir/src/PhysicsList.cc.o.d -o CMakeFiles/B1.dir/src/PhysicsList.cc.o -c /mnt/hgfs/Shared/B1/src/PhysicsList.cc
 
 CMakeFiles/B1.dir/src/PhysicsList.cc.i: cmake_force
@@ -156,7 +184,7 @@ CMakeFiles/B1.dir/src/PhysicsList.cc.s: cmake_force
 CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: CMakeFiles/B1.dir/flags.make
 CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: /mnt/hgfs/Shared/B1/src/PrimaryGeneratorAction.cc
 CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o -MF CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o.d -o CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o -c /mnt/hgfs/Shared/B1/src/PrimaryGeneratorAction.cc
 
 CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.i: cmake_force
@@ -170,7 +198,7 @@ CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.s: cmake_force
 CMakeFiles/B1.dir/src/RunAction.cc.o: CMakeFiles/B1.dir/flags.make
 CMakeFiles/B1.dir/src/RunAction.cc.o: /mnt/hgfs/Shared/B1/src/RunAction.cc
 CMakeFiles/B1.dir/src/RunAction.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/B1.dir/src/RunAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/B1.dir/src/RunAction.cc.o"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/RunAction.cc.o -MF CMakeFiles/B1.dir/src/RunAction.cc.o.d -o CMakeFiles/B1.dir/src/RunAction.cc.o -c /mnt/hgfs/Shared/B1/src/RunAction.cc
 
 CMakeFiles/B1.dir/src/RunAction.cc.i: cmake_force
@@ -184,7 +212,7 @@ CMakeFiles/B1.dir/src/RunAction.cc.s: cmake_force
 CMakeFiles/B1.dir/src/SteppingAction.cc.o: CMakeFiles/B1.dir/flags.make
 CMakeFiles/B1.dir/src/SteppingAction.cc.o: /mnt/hgfs/Shared/B1/src/SteppingAction.cc
 CMakeFiles/B1.dir/src/SteppingAction.cc.o: CMakeFiles/B1.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/B1.dir/src/SteppingAction.cc.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/B1.dir/src/SteppingAction.cc.o"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/B1.dir/src/SteppingAction.cc.o -MF CMakeFiles/B1.dir/src/SteppingAction.cc.o.d -o CMakeFiles/B1.dir/src/SteppingAction.cc.o -c /mnt/hgfs/Shared/B1/src/SteppingAction.cc
 
 CMakeFiles/B1.dir/src/SteppingAction.cc.i: cmake_force
@@ -201,6 +229,8 @@ B1_OBJECTS = \
 "CMakeFiles/B1.dir/src/ActionInitialization.cc.o" \
 "CMakeFiles/B1.dir/src/AnalysisConfig.cc.o" \
 "CMakeFiles/B1.dir/src/DetectorConstruction.cc.o" \
+"CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o" \
+"CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o" \
 "CMakeFiles/B1.dir/src/EventAction.cc.o" \
 "CMakeFiles/B1.dir/src/PhysicsList.cc.o" \
 "CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o" \
@@ -214,6 +244,8 @@ B1: CMakeFiles/B1.dir/B1.cc.o
 B1: CMakeFiles/B1.dir/src/ActionInitialization.cc.o
 B1: CMakeFiles/B1.dir/src/AnalysisConfig.cc.o
 B1: CMakeFiles/B1.dir/src/DetectorConstruction.cc.o
+B1: CMakeFiles/B1.dir/src/EffectiveSigmaCapturePhysics.cc.o
+B1: CMakeFiles/B1.dir/src/EffectiveSigmaCaptureProcess.cc.o
 B1: CMakeFiles/B1.dir/src/EventAction.cc.o
 B1: CMakeFiles/B1.dir/src/PhysicsList.cc.o
 B1: CMakeFiles/B1.dir/src/PrimaryGeneratorAction.cc.o
@@ -268,7 +300,7 @@ B1: /usr/local/geant4.11.4.0/lib64/libG4ptl.so.3.0.0
 B1: /usr/local/clhep/2.4.7.2/lib/libCLHEP-2.4.7.2.so
 B1: /usr/local/geant4.11.4.0/lib64/libG4zlib.so
 B1: CMakeFiles/B1.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable B1"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/hgfs/Shared/B1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable B1"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/B1.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

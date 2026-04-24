@@ -254,6 +254,11 @@ CMakeFiles/B1.dir/src/PhysicsList.cc.o: \
  /usr/include/c++/11/list /usr/include/c++/11/bits/stl_list.h \
  /usr/include/c++/11/bits/list.tcc \
  /usr/local/geant4.11.4.0/include/Geant4/G4VUserPhysicsList.hh \
+ /mnt/hgfs/Shared/B1/include/DetectorConstruction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VUserDetectorConstruction.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4Cache.hh \
+ /mnt/hgfs/Shared/B1/include/EffectiveSigmaCapturePhysics.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VPhysicsConstructor.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ParticleDefinition.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ProcessManager.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VProcess.hh \

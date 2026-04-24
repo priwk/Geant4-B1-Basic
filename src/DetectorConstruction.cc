@@ -35,8 +35,8 @@ namespace
     //    程序会自动按三者总和归一化。
     // ============================================================
     G4double gSolidPart = 64.0;  // BN + ZnS(Ag) 总固相
-    G4double gBinderPart = 14.4; // binder
-    G4double gAirPart = 21.6;    // air / void -0.60
+    G4double gBinderPart = 21.6; // binder
+    G4double gAirPart = 14.4;    // air / void - 0.40
 
     inline G4double SafePositive(G4double x, G4double fallback)
     {
@@ -58,8 +58,10 @@ DetectorConstruction::DetectorConstruction()
       fFilmFrontZ(0.0),
       fFilmBackZ(0.0),
       fFilmThicknessInput(2000 * um),
-      fBNWt(1.0), // BN 份数（不是百分比）
-      fZnSWt(2.0) // ZnS(Ag) 份数（不是百分比）
+      fBNWt(1.0),
+      fZnSWt(2.0),
+      fUseManualSigmaEff(false),
+      fManualSigmaEff(0.0)
 {
     // 创建命令解析器
     fMessenger = new G4GenericMessenger(this, "/det/", "Detector control");
@@ -102,12 +104,43 @@ DetectorConstruction::DetectorConstruction()
         "Air/void part in the homogeneous film.");
     airCmd.SetParameterName("airPart", false);
     airCmd.SetRange("airPart>=0.");
+
+    auto &sigmaCmd =
+        fMessenger->DeclareMethod(
+            "setSigmaEffPerCm",
+            &DetectorConstruction::SetSigmaEffPerCm,
+            "Set manual effective macroscopic absorption coefficient in unit of 1/cm. "
+            "Example: /det/setSigmaEffPerCm 13.07 . "
+            "If not set, Geant4 default neutron capture is used.");
+    sigmaCmd.SetParameterName("sigmaEffPerCm", false);
+    sigmaCmd.SetRange("sigmaEffPerCm>0.");
+    sigmaCmd.SetStates(G4State_PreInit, G4State_Idle);
 }
 
 // 析构函数
 DetectorConstruction::~DetectorConstruction()
 {
     delete fMessenger;
+}
+
+void DetectorConstruction::SetSigmaEffPerCm(G4double valuePerCm)
+{
+    if (valuePerCm > 0.0)
+    {
+        fUseManualSigmaEff = true;
+        fManualSigmaEff = valuePerCm / cm; // 转成 Geant4 内部单位 1/length
+
+        G4cout << "[DetectorConstruction] Manual Sigma_eff enabled: "
+               << valuePerCm << " /cm" << G4endl;
+    }
+    else
+    {
+        fUseManualSigmaEff = false;
+        fManualSigmaEff = 0.0;
+
+        G4cout << "[DetectorConstruction] Manual Sigma_eff disabled. "
+               << "Geant4 default neutron capture will be used." << G4endl;
+    }
 }
 
 void DetectorConstruction::DefineMaterials()

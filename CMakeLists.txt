@@ -49,6 +49,7 @@ set(B1_SCRIPTS
   run.mac
   debug.mac
   thickness_screening.mac
+  thickness_screening_A.mac
   replay_production.mac
   source_generation.mac
   )

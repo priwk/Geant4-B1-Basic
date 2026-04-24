@@ -6,12 +6,12 @@
 # ------------------------------
 /cfg/usePreset THICKNESS_SCREENING
 
-# ------------------------------
-# 设置 BN:ZnS(Ag) 配比
-# 2:1
-# ------------------------------
+# ==========================================================
+# 配比 2:1  ->  Sigma_eff = 20.8189 /cm
+# ==========================================================
 /det/bnPart 2.0
 /det/znsPart 1.0
+#/det/setSigmaEffPerCm 20.8189
 
 # ------------------------------
 # GPS: 热中子平面束
@@ -30,159 +30,159 @@
 /det/setThickness 50 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 100 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 150 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 200 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 300 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 400 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
-# ------------------------------
-# 设置 BN:ZnS(Ag) 配比
-# 1:1
-# ------------------------------
+# ==========================================================
+# 配比 1:1  ->  Sigma_eff = 17.8841 /cm
+# ==========================================================
 /det/bnPart 1.0
 /det/znsPart 1.0
+#/det/setSigmaEffPerCm 17.8841
 
 /det/setThickness 50 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 100 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 150 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 200 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 300 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 400 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
-# ------------------------------
-# 设置 BN:ZnS(Ag) 配比
-# 1:2
-# ------------------------------
+# ==========================================================
+# 配比 1:2  ->  Sigma_eff = 13.3813 /cm
+# ==========================================================
 /det/bnPart 1.0
 /det/znsPart 2.0
+#/det/setSigmaEffPerCm 13.3813
 
 /det/setThickness 50 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 100 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 150 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 200 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 230 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 300 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 400 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
-# ------------------------------
-# 设置 BN:ZnS(Ag) 配比
-# 1:3
-# ------------------------------
+# ==========================================================
+# 配比 1:3  ->  Sigma_eff = 10.8526 /cm
+# ==========================================================
 /det/bnPart 1.0
 /det/znsPart 3.0
+#/det/setSigmaEffPerCm 10.8526
 
 /det/setThickness 50 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 100 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 
 /det/setThickness 150 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 190 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 200 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 300 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000
 
 /det/setThickness 400 um
 /run/reinitializeGeometry
 /run/initialize
-/run/beamOn 10000
+/run/beamOn 100000

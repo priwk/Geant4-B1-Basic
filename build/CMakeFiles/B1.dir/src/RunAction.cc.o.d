@@ -494,6 +494,9 @@ CMakeFiles/B1.dir/src/RunAction.cc.o: \
  /usr/include/c++/11/bits/list.tcc \
  /usr/local/geant4.11.4.0/include/Geant4/G4SystemOfUnits.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4ios.hh \
+ /mnt/hgfs/Shared/B1/include/EffectiveSigmaCaptureProcess.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4VDiscreteProcess.hh \
+ /usr/local/geant4.11.4.0/include/Geant4/G4ParticleChange.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4HadronicProcessStore.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4HadronicProcess.hh \
  /usr/local/geant4.11.4.0/include/Geant4/G4VDiscreteProcess.hh \

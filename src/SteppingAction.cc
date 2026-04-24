@@ -16,6 +16,7 @@
 #include "G4Run.hh"
 #include "G4Event.hh"
 #include "G4StepStatus.hh"
+#include "G4VProcess.hh"
 
 #include "G4OpticalPhoton.hh"
 #include "G4OpBoundaryProcess.hh"
@@ -412,7 +413,9 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
     }
 
     // ---------------------------------------------------------
-    // 4. 识别一次 10B(n,alpha)7Li 俘获（这个识别不应依赖可选分析开关）
+    // 4. 识别一次俘获
+    //    4.1 若使用 EffectiveSigmaCapture，则直接以该过程发生点作为等效俘获点
+    //    4.2 否则保留原有 10B(n,alpha)7Li 次级粒子识别逻辑
     // ---------------------------------------------------------
     if (fEventAction->HasCapture())
     {
@@ -424,14 +427,35 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
         return;
     }
 
+    // ---------- 4.1 优先识别自定义等效吸收过程 ----------
+    const G4VProcess *proc = postPoint->GetProcessDefinedStep();
+    if (proc && proc->GetProcessName() == "EffectiveSigmaCapture")
+    {
+        G4ThreeVector capturePos = postPoint->GetPosition();
+
+        G4double x = capturePos.x();
+        G4double y = capturePos.y();
+        G4double z = capturePos.z();
+        G4double depth = fDetector->GetFilmFrontZ() - z;
+
+        fEventAction->SetCaptureInfo(
+            fDetector->GetBNWt(),
+            fDetector->GetZnSWt(),
+            x,
+            y,
+            z,
+            depth);
+
+        return;
+    }
+
+    // ---------- 4.2 仍保留原始 alpha + Li7 识别 ----------
     const std::vector<const G4Track *> *secondaryTracks =
         step->GetSecondaryInCurrentStep();
     if (!secondaryTracks)
     {
         return;
     }
-
-    // ---------------
 
     G4bool hasAlpha = false;
     G4bool hasLi7 = false;

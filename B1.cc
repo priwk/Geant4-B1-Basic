@@ -95,7 +95,8 @@ int main(int argc, char **argv)
   // - 几何摆放关系
   //
   // 没有它，程序就不知道“粒子在什么地方运动”
-  runManager->SetUserInitialization(new DetectorConstruction());
+  auto *detector = new DetectorConstruction();
+  runManager->SetUserInitialization(detector);
 
   // ---------- 4.2 注册物理表 ----------
   //
@@ -106,22 +107,10 @@ int main(int argc, char **argv)
   // - 中子散射、俘获
   // - 热中子相关高精度过程等
   //
-  // 下面这段被注释的代码表示：原本也可以直接使用
-  // Geant4 自带的 QBBC 物理表。
-  //
-  // 但当前真正生效的是下一行：
-  //   runManager->SetUserInitialization(new PhysicsList());
-  //
-  // 也就是说，你现在使用的是“自己写的 PhysicsList”，
-  // 而不是 Geant4 默认的 QBBC。
-  // 这对中子模拟非常关键，因为最终是否有热中子俘获、
-  // 是否有 10B(n,alpha)7Li、是否有 nKiller 等，
-  // 都取决于 PhysicsList 里到底注册了什么。
+  // 当前使用的是自定义 PhysicsList，并把 detector 指针传进去，
+  // 这样后续可让自定义“等效吸收过程”准确识别 Film 材料。
 
-  // 1. 实例化你自己写的 PhysicsList
-  G4VUserPhysicsList *myPhysicsList = new PhysicsList();
-
-  // 2. 将它注册给 runManager （也就是你问的这行代码的正确用法）
+  G4VUserPhysicsList *myPhysicsList = new PhysicsList(detector);
   runManager->SetUserInitialization(myPhysicsList);
 
   // ---------- 4.3 注册用户动作初始化 ----------

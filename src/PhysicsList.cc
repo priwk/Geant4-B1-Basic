@@ -1,4 +1,6 @@
 #include "PhysicsList.hh"
+#include "DetectorConstruction.hh"
+#include "EffectiveSigmaCapturePhysics.hh"
 
 #include "G4ParticleDefinition.hh"
 #include "G4ProcessManager.hh"
@@ -24,7 +26,9 @@
 #include "G4ThermalNeutrons.hh"
 #include "G4IonPhysicsPHP.hh"
 
-PhysicsList::PhysicsList() : G4VModularPhysicsList()
+PhysicsList::PhysicsList(DetectorConstruction *detector)
+    : G4VModularPhysicsList(),
+      fDetector(detector)
 {
   SetVerboseLevel(1);
 
@@ -45,6 +49,9 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList()
 
   // 光学：厚度扫描 / source generation 阶段先不要开
   // RegisterPhysics(new G4OpticalPhysics());
+
+  // 自定义：用等效宏观吸收系数替代 Film 中的默认 neutron capture
+  RegisterPhysics(new EffectiveSigmaCapturePhysics(fDetector));
 }
 
 PhysicsList::~PhysicsList()
