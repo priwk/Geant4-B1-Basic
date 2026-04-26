@@ -34,6 +34,15 @@ void EffectiveSigmaCaptureProcess::SetSigmaEff(G4double value)
 
 G4double EffectiveSigmaCaptureProcess::GetSigmaEff() const
 {
+  // 关键点：同一个 mac 内多次调用 /det/setSigmaEffPerCm 时，
+  // 已经挂到 neutron process manager 上的 process 实例不会重新构造。
+  // 因此这里必须优先读取 DetectorConstruction 中的当前值，
+  // 而不是只使用构造函数传入的旧 fSigmaEff。
+  if (fDetector && fDetector->UseManualSigmaEff())
+  {
+    return fDetector->GetManualSigmaEff();
+  }
+
   return fSigmaEff;
 }
 
@@ -56,21 +65,22 @@ G4double EffectiveSigmaCaptureProcess::GetMeanFreePath(const G4Track &track,
   if (condition)
     *condition = NotForced;
 
-  // 只对 neutron 生效
   if (track.GetDefinition() != G4Neutron::Neutron())
     return DBL_MAX;
 
-  // 只对 Film 的均相材料生效
+  // 没有 /det/setSigmaEffPerCm 时，该过程保持惰性，不影响默认 Geant4 模式。
+  if (!fDetector || !fDetector->UseManualSigmaEff())
+    return DBL_MAX;
+
   const G4Material *mat = track.GetMaterial();
   if (!IsTargetMaterial(mat))
     return DBL_MAX;
 
-  // 非法或未设置的 Sigma_eff：视为不发生该过程
-  if (fSigmaEff <= 0.0)
+  const G4double sigmaEff = GetSigmaEff();
+  if (sigmaEff <= 0.0)
     return DBL_MAX;
 
-  // lambda = 1 / Sigma_eff
-  return 1.0 / fSigmaEff;
+  return 1.0 / sigmaEff;
 }
 
 G4VParticleChange *EffectiveSigmaCaptureProcess::PostStepDoIt(const G4Track &track,
@@ -78,8 +88,18 @@ G4VParticleChange *EffectiveSigmaCaptureProcess::PostStepDoIt(const G4Track &tra
 {
   fParticleChange.Initialize(track);
 
-  // 这里把发生点视为“等效俘获点”
-  // 当前阶段只关心吸收率与俘获坐标，不生成真实 alpha / Li 次级粒子
+  // 没有 /det/setSigmaEffPerCm 时，该过程不做任何事。
+  if (!fDetector || !fDetector->UseManualSigmaEff())
+  {
+    return &fParticleChange;
+  }
+
+  // 手动 Sigma_eff 模式的定义：
+  //   - 该过程只表示一次等效宏观吸收/等效俘获；
+  //   - 发生点由 Geant4 离散过程抽样决定，即 post-step point；
+  //   - SteppingAction 通过 process name == "EffectiveSigmaCapture" 识别该点，
+  //     并写入 neutron_capture_positions；
+  //   - 本项目不在这里人工生成 alpha / Li7，不给局域沉积能量。
   fParticleChange.ProposeTrackStatus(fStopAndKill);
   fParticleChange.ProposeEnergy(0.0);
   fParticleChange.ProposeLocalEnergyDeposit(0.0);

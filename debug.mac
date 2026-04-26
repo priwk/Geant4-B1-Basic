@@ -11,7 +11,7 @@
 # ==========================================================
 /det/bnPart 2.0
 /det/znsPart 1.0
-#/det/setSigmaEffPerCm 20.8189
+/det/setSigmaEffPerCm 20.8189
 
 # ------------------------------
 # GPS: 热中子平面束
@@ -64,7 +64,7 @@
 # ==========================================================
 /det/bnPart 1.0
 /det/znsPart 1.0
-#/det/setSigmaEffPerCm 17.8841
+/det/setSigmaEffPerCm 17.8841
 
 /det/setThickness 50 um
 /run/reinitializeGeometry
@@ -104,7 +104,7 @@
 # ==========================================================
 /det/bnPart 1.0
 /det/znsPart 2.0
-#/det/setSigmaEffPerCm 13.3813
+/det/setSigmaEffPerCm 13.3813
 
 /det/setThickness 50 um
 /run/reinitializeGeometry
@@ -148,7 +148,7 @@
 # ==========================================================
 /det/bnPart 1.0
 /det/znsPart 3.0
-#/det/setSigmaEffPerCm 10.8526
+/det/setSigmaEffPerCm 10.8526
 
 /det/setThickness 50 um
 /run/reinitializeGeometry

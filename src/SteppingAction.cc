@@ -422,7 +422,7 @@ void SteppingAction::UserSteppingAction(const G4Step *step)
         return;
     }
 
-    if (particleName != "neutron")
+    if (particleName != "neutron" || track->GetParentID() != 0)
     {
         return;
     }

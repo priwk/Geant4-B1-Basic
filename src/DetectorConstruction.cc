@@ -372,28 +372,10 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     fFilmBackZ = fFilmCenterZ - 0.5 * fFilmThickness;  // -z 面，出射面
 
     // =========================
-    // 铝板
+    // 不放置前置铝板
     // =========================
-
-    // 定义 0.5mm 铝板 (Aluminum Substrate)，放置在入射面 (+z 侧)
-    G4Material *matAl = G4NistManager::Instance()->FindOrBuildMaterial("G4_Al");
-    const G4double alXY = filmXY; // 假设铝板长宽与薄膜一致
-    const G4double alT = 0.5 * mm;
-
-    // 铝板中心 Z 坐标 = 薄膜中心 + 半个薄膜厚度 + 半个铝板厚度
-    const G4double alPosZ = fFilmCenterZ + 0.5 * fFilmThickness + 0.5 * alT;
-
-    G4Box *solidAl = new G4Box("AlPlate", 0.5 * alXY, 0.5 * alXY, 0.5 * alT);
-    G4LogicalVolume *logicAl = new G4LogicalVolume(solidAl, matAl, "AlPlate");
-
-    new G4PVPlacement(
-        nullptr,
-        G4ThreeVector(0, 0, alPosZ),
-        logicAl,
-        "AlPlate",
-        logicWorld,
-        false,
-        0);
+    // 为了让 incident / absorb / transmit 更严格对应薄膜本体，
+    // 这里去掉原先位于入射面 (+z 侧) 的铝板。
 
     // =========================
     // 可视化属性
@@ -403,11 +385,6 @@ G4VPhysicalVolume *DetectorConstruction::Construct()
     G4VisAttributes *filmVisAtt = new G4VisAttributes(G4Colour(0.9, 0.9, 0.3, 0.4));
     filmVisAtt->SetForceSolid(true);
     logicFilm->SetVisAttributes(filmVisAtt);
-
-    // 为铝板设置银灰色半透明的可视化属性
-    G4VisAttributes *alVisAtt = new G4VisAttributes(G4Colour(0.7, 0.7, 0.7, 0.5));
-    alVisAtt->SetForceSolid(true);
-    logicAl->SetVisAttributes(alVisAtt);
 
     return physWorld;
 }

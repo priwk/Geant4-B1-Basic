@@ -336,6 +336,8 @@ void EventAction::BeginOfEventAction(const G4Event *)
   fEdep = 0.0;
   fGeneratedPhotons = 0.0;
 
+  // 同一 EventAction 实例会被复用；事件开始时同步清零，避免异常提前结束时继承上一事件状态。
+  fHasCapture = false;
   fHasTransmit = false;
 
   fDetectedPhotonCount = 0;

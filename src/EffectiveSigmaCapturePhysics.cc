@@ -10,6 +10,8 @@
 #include "G4SystemOfUnits.hh"
 #include "G4ios.hh"
 
+#include <vector>
+
 EffectiveSigmaCapturePhysics::EffectiveSigmaCapturePhysics(DetectorConstruction *detector)
     : G4VPhysicsConstructor("EffectiveSigmaCapturePhysics"),
       fDetector(detector)
@@ -18,7 +20,7 @@ EffectiveSigmaCapturePhysics::EffectiveSigmaCapturePhysics(DetectorConstruction 
 
 void EffectiveSigmaCapturePhysics::ConstructParticle()
 {
-  // neutron 已由参考物理表构造，这里无需额外定义
+  // neutron 已由参考物理表构造，这里无需额外定义。
 }
 
 void EffectiveSigmaCapturePhysics::ConstructProcess()
@@ -29,28 +31,30 @@ void EffectiveSigmaCapturePhysics::ConstructProcess()
     return;
 
   // --------------------------------------------------
-  // 0. 如果没有手动指定 Sigma_eff，则保留 Geant4 默认 nCapture
+  // 0. 没有手动指定 Sigma_eff 时，保持默认 Geant4 模式。
+  //    注意：这保持了原始约定：不写 /det/setSigmaEffPerCm 就是默认模式。
   // --------------------------------------------------
   if (!fDetector || !fDetector->UseManualSigmaEff())
   {
     G4cout << "[EffectiveSigmaCapturePhysics] Manual Sigma_eff not set. "
-           << "Keep Geant4 default neutron capture." << G4endl;
+           << "Keep Geant4 default neutron capture/inelastic processes." << G4endl;
     return;
   }
 
   const G4double sigmaEff = fDetector->GetManualSigmaEff();
-
   if (sigmaEff <= 0.0)
   {
     G4cout << "[EffectiveSigmaCapturePhysics] Invalid manual Sigma_eff. "
-           << "Keep Geant4 default neutron capture." << G4endl;
+           << "Keep Geant4 default neutron capture/inelastic processes." << G4endl;
     return;
   }
 
   // --------------------------------------------------
-  // 1. 先移除默认的 neutron capture，避免双重计数
+  // 1. 手动 Sigma_eff 模式下，移除默认 neutron absorption/conversion 相关过程，
+  //    避免 Geant4 默认 B10(n,alpha)Li7 与 EffectiveSigmaCapture 叠加。
   // --------------------------------------------------
-  G4VProcess *defaultCapture = nullptr;
+  std::vector<G4VProcess *> processesToRemove;
+  EffectiveSigmaCaptureProcess *existingEffective = nullptr;
 
   G4ProcessVector *pv = pm->GetProcessList();
   const G4int nProc = pm->GetProcessListLength();
@@ -62,31 +66,55 @@ void EffectiveSigmaCapturePhysics::ConstructProcess()
       continue;
 
     const G4String pName = proc->GetProcessName();
+
+    if (pName == "EffectiveSigmaCapture")
+    {
+      existingEffective = dynamic_cast<EffectiveSigmaCaptureProcess *>(proc);
+      continue;
+    }
+
     if (pName == "nCapture" ||
         pName == "HadronCapture" ||
         pName == "neutronCapture" ||
-        pName == "nCaptureHP")
+        pName == "nCaptureHP" ||
+        pName == "neutronInelastic" ||
+        pName == "neutronInelasticHP")
     {
-      defaultCapture = proc;
-      break;
+      processesToRemove.push_back(proc);
     }
   }
 
-  if (defaultCapture)
+  for (auto *proc : processesToRemove)
   {
-    pm->RemoveProcess(defaultCapture);
+    if (!proc)
+      continue;
+
+    const G4String pName = proc->GetProcessName();
+    pm->RemoveProcess(proc);
     G4cout << "[EffectiveSigmaCapturePhysics] Removed default neutron process: "
-           << defaultCapture->GetProcessName() << G4endl;
+           << pName << G4endl;
   }
-  else
+
+  if (processesToRemove.empty())
   {
-    G4cout << "[EffectiveSigmaCapturePhysics] Warning: default nCapture not found."
+    G4cout << "[EffectiveSigmaCapturePhysics] Warning: no default neutron capture/inelastic process was removed."
            << G4endl;
   }
 
   // --------------------------------------------------
-  // 2. 添加你的等效宏观吸收过程
+  // 2. 添加或复用等效宏观吸收过程。
+  //    真正抽样时 EffectiveSigmaCaptureProcess::GetMeanFreePath()
+  //    会动态读取 DetectorConstruction 当前的 Sigma_eff。
   // --------------------------------------------------
+  if (existingEffective)
+  {
+    existingEffective->SetSigmaEff(sigmaEff);
+    G4cout << "[EffectiveSigmaCapturePhysics] Reuse process: "
+           << existingEffective->GetProcessName()
+           << " with Sigma_eff = " << sigmaEff * cm << " /cm" << G4endl;
+    return;
+  }
+
   auto *effCapture = new EffectiveSigmaCaptureProcess(fDetector, sigmaEff);
   pm->AddDiscreteProcess(effCapture);
 

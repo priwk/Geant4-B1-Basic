@@ -20,6 +20,7 @@
 #include <sstream>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 RunAction::RunAction(const AnalysisConfig *config)
     : G4UserRunAction(),
@@ -63,16 +64,19 @@ void RunAction::BeginOfRunAction(const G4Run *aRun)
         mat = detector->GetScoringVolume()->GetMaterial();
     }
 
+    const G4bool useManualSigmaEff = (detector && detector->UseManualSigmaEff());
+
     G4ParticleDefinition *neutron = G4Neutron::Neutron();
     G4ProcessManager *pManager = neutron->GetProcessManager();
 
     // --------------------------------------------------
     // A. 手动 Sigma_eff 模式
     // --------------------------------------------------
-    if (detector && detector->UseManualSigmaEff())
+    if (useManualSigmaEff)
     {
         EffectiveSigmaCaptureProcess *effProc = nullptr;
         G4VProcess *defaultCaptureProc = nullptr;
+        G4VProcess *defaultInelasticProc = nullptr;
 
         if (pManager)
         {
@@ -88,22 +92,28 @@ void RunAction::BeginOfRunAction(const G4Run *aRun)
                     effProc = dynamic_cast<EffectiveSigmaCaptureProcess *>(proc);
                 }
 
-                if (!defaultCaptureProc)
+                const G4String pName = proc->GetProcessName();
+
+                if (!defaultCaptureProc &&
+                    (pName == "nCapture" ||
+                     pName == "HadronCapture" ||
+                     pName == "neutronCapture" ||
+                     pName == "nCaptureHP"))
                 {
-                    G4String pName = proc->GetProcessName();
-                    if (pName == "nCapture" ||
-                        pName == "HadronCapture" ||
-                        pName == "neutronCapture" ||
-                        pName == "nCaptureHP")
-                    {
-                        defaultCaptureProc = proc;
-                    }
+                    defaultCaptureProc = proc;
+                }
+
+                if (!defaultInelasticProc &&
+                    (pName == "neutronInelastic" ||
+                     pName == "neutronInelasticHP"))
+                {
+                    defaultInelasticProc = proc;
                 }
             }
         }
 
         G4cout << "\n============================================================" << G4endl;
-        G4cout << "Capture Model Check" << G4endl;
+        G4cout << "Neutron Absorption Model Check" << G4endl;
 
         if (mat)
         {
@@ -115,17 +125,24 @@ void RunAction::BeginOfRunAction(const G4Run *aRun)
             G4cout << "Material                 = [not found]" << G4endl;
         }
 
-        G4cout << "Capture Mode             = Manual Sigma_eff override" << G4endl;
-        G4cout << "Requested Sigma_eff/cm   = " << detector->GetManualSigmaEff() * cm << G4endl;
+        const G4double sigmaEffRequested = detector->GetManualSigmaEff();
+
+        G4cout << "Absorption Mode          = Manual Sigma_eff override" << G4endl;
+        G4cout << "Requested Sigma_eff/cm   = " << sigmaEffRequested * cm << G4endl;
 
         if (effProc)
         {
-            G4double sigmaEff = effProc->GetSigmaEff();
-            G4double mfp = (sigmaEff > 0.0) ? (1.0 / sigmaEff) : -1.0;
+            // Extra safety sync: even if the process instance was created before the
+            // latest /det/setSigmaEffPerCm command, each run starts with the current
+            // DetectorConstruction value.
+            effProc->SetSigmaEff(sigmaEffRequested);
+
+            const G4double sigmaEffProcess = effProc->GetSigmaEff();
+            const G4double mfp = (sigmaEffProcess > 0.0) ? (1.0 / sigmaEffProcess) : -1.0;
 
             G4cout << "Process                  = " << effProc->GetProcessName() << G4endl;
-            G4cout << "Sigma_eff_per_cm         = " << sigmaEff * cm << G4endl;
-            G4cout << "Sigma_eff_per_um         = " << sigmaEff * um << G4endl;
+            G4cout << "Process Sigma_eff/cm     = " << sigmaEffProcess * cm << G4endl;
+            G4cout << "Process Sigma_eff/um     = " << sigmaEffProcess * um << G4endl;
             G4cout << "MeanFreePath_um          = " << (mfp > 0.0 ? mfp / um : -1.0) << G4endl;
         }
         else
@@ -133,14 +150,10 @@ void RunAction::BeginOfRunAction(const G4Run *aRun)
             G4cout << "Process                  = [EffectiveSigmaCapture not found]" << G4endl;
         }
 
-        if (defaultCaptureProc)
-        {
-            G4cout << "Default nCapture         = still present (unexpected)" << G4endl;
-        }
-        else
-        {
-            G4cout << "Default nCapture         = removed" << G4endl;
-        }
+        G4cout << "Default nCapture         = "
+               << (defaultCaptureProc ? "still present (unexpected)" : "removed") << G4endl;
+        G4cout << "Default nInelastic       = "
+               << (defaultInelasticProc ? "still present (unexpected)" : "removed") << G4endl;
 
         G4cout << "============================================================\n"
                << G4endl;
@@ -184,13 +197,13 @@ void RunAction::BeginOfRunAction(const G4Run *aRun)
         if (mat)
         {
             G4cout << "\n=================================================================================" << G4endl;
-            G4cout << "Capture Model Check" << G4endl;
-            G4cout << "Capture Mode             = Geant4 default capture" << G4endl;
+            G4cout << "Neutron Absorption / Conversion Model Check" << G4endl;
+            G4cout << "Absorption Mode          = Geant4 default hadronic physics" << G4endl;
             G4cout << "Material                 = " << mat->GetName() << G4endl;
             G4cout << "Effective Density        = " << mat->GetDensity() / (g / cm3) << " g/cm3" << G4endl;
             G4cout << "---------------------------------------------------------------------------------" << G4endl;
-            G4cout << "Energy\t\t(n, alpha) Macroscopic\tMeanFreePath\t|  (n, gamma) Macroscopic\t|  Total Absorption" << G4endl;
-            G4cout << "      \t\t[Inelastic] (cm^-1)   \t[alpha] (um)\t|  [Capture]  (cm^-1)\t|  [Inelastic+Capture] (cm^-1)" << G4endl;
+            G4cout << "Energy\t\t(n, alpha-like conversion)\tMeanFreePath\t|  (n, gamma) radiative\t|  Total neutron removal estimate" << G4endl;
+            G4cout << "      \t\t[Inelastic] (cm^-1)      \t[conv] (um)\t|  [Capture] (cm^-1)\t|  [Inelastic+Capture] (cm^-1)" << G4endl;
             G4cout << "---------------------------------------------------------------------------------" << G4endl;
 
             std::vector<G4double> energies = {
@@ -249,26 +262,30 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
         nOther = 0;
     }
 
-    G4double captureEff = 0.0;
+    G4double absorbEff = 0.0;
     G4double transmitEff = 0.0;
     G4double otherEff = 0.0;
     G4double attenuation = 0.0;
 
-    // 手动 Sigma_eff 模式：直接采用输入值
-    // 默认 Geant4 模式：保留 N / 总路径 作为 run-based 参考值
-    G4double sigmaEff = 0.0;
-    if (detector && detector->UseManualSigmaEff())
+    const G4bool useManualSigmaEff = (detector && detector->UseManualSigmaEff());
+
+    // run-derived Sigma_eff：默认模式与手动模式都统一用 N_absorb / 总中子路径计算，
+    // 便于与手动输入值直接核对。
+    G4double sigmaEffRunDerived = 0.0;
+    if (fTotalNeutronTrackLength > 0.0)
     {
-        sigmaEff = detector->GetManualSigmaEff();
+        sigmaEffRunDerived = static_cast<G4double>(fNCapture) / fTotalNeutronTrackLength;
     }
-    else if (fTotalNeutronTrackLength > 0.0)
-    {
-        sigmaEff = static_cast<G4double>(fNCapture) / fTotalNeutronTrackLength;
-    }
+
+    const G4double sigmaEffManualInput =
+        useManualSigmaEff ? detector->GetManualSigmaEff() : 0.0;
+    const char *sigmaEffMode = useManualSigmaEff
+                                   ? "manual_sigma_eff_override"
+                                   : "geant4_default_hadronic";
 
     if (fNIncident > 0)
     {
-        captureEff = static_cast<G4double>(fNCapture) / fNIncident;
+        absorbEff = static_cast<G4double>(fNCapture) / fNIncident;
         transmitEff = static_cast<G4double>(fNTransmit) / fNIncident;
         otherEff = static_cast<G4double>(nOther) / fNIncident;
         attenuation = 1.0 - transmitEff;
@@ -276,25 +293,24 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
 
     G4cout << "### Run " << aRun->GetRunID() << " Stop." << G4endl;
     G4cout << "  N_incident             = " << fNIncident << G4endl;
-    G4cout << "  N_capture              = " << fNCapture << G4endl;
+    G4cout << "  N_absorb               = " << fNCapture << G4endl;
     G4cout << "  N_transmit             = " << fNTransmit << G4endl;
     G4cout << "  total_neutron_track_um = " << (fTotalNeutronTrackLength / um) << G4endl;
 
-    if (detector && detector->UseManualSigmaEff())
+    G4cout << "  sigma_eff_mode         = " << sigmaEffMode << G4endl;
+    G4cout << "  sigma_eff_per_um       = " << (sigmaEffRunDerived * um) << G4endl;
+    G4cout << "  sigma_eff_per_cm       = " << (sigmaEffRunDerived * cm) << G4endl;
+    if (useManualSigmaEff)
     {
-        G4cout << "  sigma_eff_mode         = manual_input" << G4endl;
+        G4cout << "  sigma_eff_manual_input_per_um = " << (sigmaEffManualInput * um) << G4endl;
+        G4cout << "  sigma_eff_manual_input_per_cm = " << (sigmaEffManualInput * cm) << G4endl;
     }
-    else
-    {
-        G4cout << "  sigma_eff_mode         = run_derived" << G4endl;
-    }
-
-    G4cout << "  sigma_eff_per_um       = " << (sigmaEff * um) << G4endl;
-    G4cout << "  sigma_eff_per_cm       = " << (sigmaEff * cm) << G4endl;
-    G4cout << "  capture_eff            = " << captureEff << G4endl;
+    G4cout << "  absorb_eff             = " << absorbEff << G4endl;
     G4cout << "  transmit_eff           = " << transmitEff << G4endl;
     G4cout << "  other_eff              = " << otherEff << G4endl;
     G4cout << "  attenuation            = " << attenuation << G4endl;
+    G4cout << "  sigma_eff_source       = " << sigmaEffMode << G4endl;
+    G4cout << "  note                   = sigma_eff_per_cm is always run-derived from N_absorb / total_neutron_track_length; manual input is printed separately when enabled." << G4endl;
 
     if (fAnalysisConfig && fAnalysisConfig->enableAttenuation)
     {
@@ -359,13 +375,15 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
         {
             outFile << "thickness_um,"
                     << "n_incident,"
-                    << "n_capture,"
+                    << "n_absorb,"
                     << "n_transmit,"
                     << "total_neutron_track_length_um,"
                     << "sigma_eff_mode,"
                     << "sigma_eff_per_um,"
                     << "sigma_eff_per_cm,"
-                    << "capture_efficiency,"
+                    << "sigma_eff_manual_input_per_um,"
+                    << "sigma_eff_manual_input_per_cm,"
+                    << "absorb_efficiency,"
                     << "transmission_efficiency,"
                     << "other_loss_efficiency,"
                     << "attenuation"
@@ -377,10 +395,12 @@ void RunAction::EndOfRunAction(const G4Run *aRun)
                 << fNCapture << ","
                 << fNTransmit << ","
                 << (fTotalNeutronTrackLength / um) << ","
-                << ((detector && detector->UseManualSigmaEff()) ? "manual_input" : "run_derived") << ","
-                << (sigmaEff * um) << ","
-                << (sigmaEff * cm) << ","
-                << captureEff << ","
+                << sigmaEffMode << ","
+                << (sigmaEffRunDerived * um) << ","
+                << (sigmaEffRunDerived * cm) << ","
+                << (sigmaEffManualInput * um) << ","
+                << (sigmaEffManualInput * cm) << ","
+                << absorbEff << ","
                 << transmitEff << ","
                 << otherEff << ","
                 << attenuation
@@ -423,15 +443,6 @@ G4double RunAction::GetTotalNeutronTrackLength() const
 
 G4double RunAction::GetSigmaEff() const
 {
-    const DetectorConstruction *detector =
-        static_cast<const DetectorConstruction *>(
-            G4RunManager::GetRunManager()->GetUserDetectorConstruction());
-
-    if (detector && detector->UseManualSigmaEff())
-    {
-        return detector->GetManualSigmaEff();
-    }
-
     if (fTotalNeutronTrackLength <= 0.0)
     {
         return 0.0;
